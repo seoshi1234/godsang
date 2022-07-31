@@ -1,0 +1,17 @@
+.menu{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding-left: 30px;
+  padding-bottom: 30px;
+}
+
+.menu__btns{
+  position: relative;
+  
+
+  transition-property: left,opacity;
+  transition-delay: 0s;
+  transition-duration: .2s;
+  transition-timing-function: ease-in-out;
+}

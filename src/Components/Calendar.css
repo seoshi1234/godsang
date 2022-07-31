@@ -1,0 +1,31 @@
+.calendar{
+  margin: 15px;
+  max-width: 500px;  
+  float: left;
+}
+
+.calendar table{
+  table-layout: fixed;
+  width: 100%;
+}
+
+
+.calendar button{
+  transition-duration: 0s;
+}
+
+.calendar__navigation{
+  padding: 15px;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.calendar__navigation>*{
+  margin: 5px;
+}
+
+.calendar__navigationBtns{
+  position: absolute;  
+  right:0;
+}

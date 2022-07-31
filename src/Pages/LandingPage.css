@@ -1,0 +1,36 @@
+.landingPage{  
+  text-align: center;
+  color:white;
+  width:100vw;
+  height:100vh;  
+  position: absolute;
+  background-image: linear-gradient(90deg, #222 0%,rgba(0,0,0,.8) 50%,rgba(255, 255, 255, 0) 100%),
+  url('./LandingPage.jpg');
+  background-size: cover;
+  background-position: center;
+  font-family: '양진체';
+  
+}
+
+.landingPage__contents{
+  margin-top: 30vh;  
+}
+
+.landingPage__logo{
+  background: #1a5be8;
+  background: linear-gradient(to right, #0048ff 0%, #0a78ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  font-size: 70px;  
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.landingPage__text{  
+  font-size:30px;
+}
+
+.landingPage__title{  
+  font-size:50px;
+  
+}

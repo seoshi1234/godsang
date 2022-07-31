@@ -1,0 +1,25 @@
+
+
+.todoMenu{
+  position: absolute;
+  width: 50%;
+  top:0px;
+  left:100%;
+  display: flex;
+  flex-wrap: wrap;
+  opacity: 0%;
+  transform: translateX(-10%) scale(.9);
+  pointer-events: none;
+  transition: all .1s 0s ease-in-out;
+}
+
+.todoMenu.opened{
+  transform: translateY(0) scale(1);
+  opacity: 100%;
+  pointer-events: all;
+}
+
+.todoMenu Button{
+  width: 100%;
+  border-radius: 0px;
+}

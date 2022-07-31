@@ -1,0 +1,15 @@
+header {
+  padding: 20px;
+  
+}
+
+.header__logo{
+  font-family: '양진체';
+  background: #1a5be8;
+  background: linear-gradient(to right, #0088ff 0%, #0ae2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  font-size: 30px;    
+  font-weight: bold;
+  text-decoration: underline;
+}

@@ -1,0 +1,22 @@
+.todoList{
+  margin: 60px;
+  
+  max-width: 500px;
+  height: 500px;
+  float: left;
+}
+
+.todoList__todo{
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.todoList__todo input{
+  border-color: var(--chakra-colors-facebook-500);
+}
+
+.todoList__todo span{
+  border-color: var(--chakra-colors-facebook-500);
+}
+
