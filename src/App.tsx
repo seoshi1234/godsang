@@ -136,7 +136,7 @@ function App() {
                 }
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme='teal' mr={3} onClick={signUp} type='submit'>
+              <Button colorScheme='facebook' mr={3} onClick={signUp} type='submit'>
                 가입하기
               </Button>
               <Button colorScheme='red'  onClick={onSignUpClose}>
@@ -164,7 +164,7 @@ function App() {
                 }
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme='teal' mr={3} onClick={signIn} type='submit'>
+              <Button colorScheme='facebook' mr={3} onClick={signIn} type='submit'>
                 로그인
               </Button>
               <Button colorScheme='red'  onClick={onSignInClose}>

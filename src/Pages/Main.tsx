@@ -5,10 +5,11 @@ import Header from '../Components/Header'
 import './Main.css'
 
 import moment from 'moment';
-import { Schedule } from '../Models/Model'
+import { DailyTodos, Schedule } from '../Models/Model'
 import { Database, get, onValue, ref, set } from 'firebase/database'
 import Calendar from '../Components/Calendar'
 import TodoList from '../Components/TodoList'
+import { useInterval } from '../Hooks'
 
 
 
@@ -24,6 +25,8 @@ function Main(props : MainProps) {
   const [isLoaded,setIsLoaded] = useState<boolean>(false);
   const [selectedDate,setSelectedDate] = useState<moment.Moment>(moment());
   const [schedule, setSchedule] = useState<Schedule>(null);
+  const [todaySchedule,setTodaySchedule] = useState<DailyTodos>(null);  
+  const [timerInterval, setTimerInterval] = useState<number>(1000);
   const [rerender, setRerender] = useState<boolean>(false);
 
   useEffect(()=>{
@@ -33,9 +36,35 @@ function Main(props : MainProps) {
       }else{
         setIsLoaded(true);
       }
+      setTodaySchedule(schedule.dailySchedules.find((dailySchedule)=>{
+        return dailySchedule.date === moment().format('YYYY년 M월 D일');
+      }))
     }
     
   },[schedule])
+
+  useInterval(()=>{    
+
+    if(todaySchedule){
+
+      setTimerInterval(1000);
+
+      const currentTime = moment().format('HH:mm');
+
+      const activatedAlarms = todaySchedule.todos.filter(todo=>{
+        return todo.timer === currentTime;
+      })        
+
+      
+
+      if(activatedAlarms?.length>0 && timerInterval===1000){
+        activatedAlarms.forEach(alarm=>{
+          alert(alarm.name)
+        })
+        setTimerInterval(1000*(60-Number(moment().format('s'))));
+      }
+    }
+  },timerInterval)
 
   useEffect(()=>{    
 
@@ -44,13 +73,13 @@ function Main(props : MainProps) {
     });
     
   },[])
- 
+
   return (
     <div className="main">
       <Header/>
-      <Menu signOut={()=>props.auth.signOut()}/>
       <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
       <TodoList  schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isLoaded={isLoaded} />
+      <Menu signOut={()=>props.auth.signOut()}/>
     </div>
   )
 }

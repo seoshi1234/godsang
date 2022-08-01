@@ -2,7 +2,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Heading, Box, Checkbox, Input, StyleObjectOrFn, Button } from '@chakra-ui/react';
 import moment from 'moment'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { DailyTodos, Schedule } from '../Models/Model'
+import { DailyTodos, Schedule, Todo } from '../Models/Model'
 import TodoElement from './TodoElement';
 import './TodoList.css';
 
@@ -16,6 +16,7 @@ interface TodoListProps{
 function TodoList(props:TodoListProps) {
 
   const [selectedSchedule, setSelectedSchedule] = useState<DailyTodos>(null);
+  const [todoClipboard, setTodoClipboard] = useState<Todo>(null);
 
   const onCompletedCheck=(value:boolean, i:number)=>{
     const newSelectedSchedule = {...selectedSchedule};
@@ -23,9 +24,15 @@ function TodoList(props:TodoListProps) {
     setSelectedSchedule(newSelectedSchedule);
   }
 
-  const onNameChange=(value:string, i:number)=>{
+  const onNameChange=(value:string, i:number)=>{    
     const newSelectedSchedule = {...selectedSchedule};
     newSelectedSchedule.todos[i].name = value;
+    setSelectedSchedule(newSelectedSchedule);
+  }
+
+  const onTimerChange=(value:string, i:number)=>{
+    const newSelectedSchedule = {...selectedSchedule};
+    newSelectedSchedule.todos[i].timer = value;
     setSelectedSchedule(newSelectedSchedule);
   }
 
@@ -44,13 +51,38 @@ function TodoList(props:TodoListProps) {
     }
     else{
       const newSelectedSchedule = {...selectedSchedule};
-      newSelectedSchedule.todos.push({
-        completed:false,
-        name:'',
-        timer:null
-      })
+      if(newSelectedSchedule.todos?.length>0){
+        newSelectedSchedule.todos.push({
+          completed:false,
+          name:'',
+          timer:null
+        })
+      }
+      else{
+        newSelectedSchedule.todos = [{
+          completed:false,
+          name:'',
+          timer:null
+        }]
+      }
       setSelectedSchedule(newSelectedSchedule);
     }
+  }
+
+  const copyTodo = (idx:number)=>{
+    setTodoClipboard({...(selectedSchedule.todos[idx])});
+  }
+
+  const pasteTodo = (idx:number)=>{
+    const newSelectedSchedule = {...selectedSchedule};
+    newSelectedSchedule.todos.splice(idx+1,0,todoClipboard);
+    setSelectedSchedule(newSelectedSchedule);
+  }
+
+  const deleteTodo = (idx:number)=>{
+    const newSelectedSchedule = {...selectedSchedule};
+    newSelectedSchedule.todos.splice(idx,1);
+    setSelectedSchedule(newSelectedSchedule);
   }
 
   useEffect(()=>{
@@ -68,11 +100,7 @@ function TodoList(props:TodoListProps) {
 
   },[props.selectedDate, props.isLoaded])
 
-  
-
   useEffect(()=>{
-
-    console.log(selectedSchedule);
 
     if(selectedSchedule){
       const newSchedule = {...props.schedule};
@@ -92,17 +120,24 @@ function TodoList(props:TodoListProps) {
 
   },[selectedSchedule])
 
+
   return (
     <Box className="todoList">
       <Heading as={'h2'} mb={5}>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
       {
         selectedSchedule&&
-        selectedSchedule.todos.map((todo,i)=>{
+        selectedSchedule.todos?.map((todo,i)=>{
           const sx={
             borderColor:'var(--chakra-colors-facebook-500)',            
           }
           return(            
-            <TodoElement key={i} idx={i} todo={todo} onCompletedCheck={onCompletedCheck} onNameChange={onNameChange}/>
+            <TodoElement key={i} idx={i} todo={todo} 
+            onCompletedCheck={onCompletedCheck} 
+            onNameChange={onNameChange}
+            onTimerChange={onTimerChange}
+            copyTodo={copyTodo}
+            pasteTodo={pasteTodo}
+            deleteTodo={deleteTodo}/>
             
           );
         })

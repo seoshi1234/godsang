@@ -24,9 +24,12 @@ export interface Goal{
 }
 
 export const getUncompletedTodoCount=(todos:Array<Todo>)=>{
-  return todos.reduce((count, cur)=>{
-    return count+(cur.completed?0:1);
-  },0)
+  if(todos?.length>0){
+    return todos.reduce((count, cur)=>{
+      return count+(cur.completed?0:1);
+    },0)
+
+  }
 }
 
 export const generateRandomSchedule:(string)=>Schedule =(uid:string)=>{

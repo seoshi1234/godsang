@@ -16,7 +16,17 @@
   cursor: pointer;
 }
 
-
+.hoverIconEffect{
+  transition: all .2s 0s ease-in-out;
+  opacity: 0;
+  max-width: 0;
+  transform: scaleX(0);
+}
+.hoverIconEffect.hover{
+  opacity: 1;
+  max-width: 40px;
+  transform: scaleX(1);
+}
 
 
 
