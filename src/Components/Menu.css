@@ -11,7 +11,6 @@
   
 
   transition-property: left,opacity;
-  transition-delay: 0s;
-  transition-duration: .2s;
+  transition-delay: 0s;  
   transition-timing-function: ease-in-out;
 }

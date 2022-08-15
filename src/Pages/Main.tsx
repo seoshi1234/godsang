@@ -5,12 +5,13 @@ import Header from '../Components/Header'
 import './Main.css'
 
 import moment from 'moment';
-import { DailyTodos, Schedule } from '../Models/Model'
+import { DailyTodos, Schedule, StampBoard } from '../Models/Model'
 import { Database, get, onValue, ref, set } from 'firebase/database'
 import Calendar from '../Components/Calendar'
 import TodoList from '../Components/TodoList'
 import { useInterval } from '../Hooks'
-
+import {randomNotification} from '../Notification'
+import _StampBoard from '../Components/StampBoard'
 
 
 interface MainProps{
@@ -22,19 +23,24 @@ function Main(props : MainProps) {
 
   moment.locale('ko');
 
-  const [isLoaded,setIsLoaded] = useState<boolean>(false);
+  const [mainPageState, setMainPageState] = useState<'schedule'|'stamp'>('schedule');
+
+  const [isScheduleLoaded,setIsScheduleLoaded] = useState<boolean>(false);
+  const [isStampBoardLoaded,setIsStampBoardLoaded] = useState<boolean>(false);
+
   const [selectedDate,setSelectedDate] = useState<moment.Moment>(moment());
   const [schedule, setSchedule] = useState<Schedule>(null);
+  const [stampBoard, setStampBoard] = useState<StampBoard>(null);
   const [todaySchedule,setTodaySchedule] = useState<DailyTodos>(null);  
-  const [timerInterval, setTimerInterval] = useState<number>(1000);
-  const [rerender, setRerender] = useState<boolean>(false);
+
+  const [timerInterval, setTimerInterval] = useState<number>(1000);  
 
   useEffect(()=>{
     if(schedule){
-      if(isLoaded){
-        set(ref(props.db, 'users/'+props.auth.currentUser.uid),schedule);
+      if(isScheduleLoaded){
+        set(ref(props.db, `users/${props.auth.currentUser.uid}/schedule`),schedule);
       }else{
-        setIsLoaded(true);
+        setIsScheduleLoaded(true);
       }
       setTodaySchedule(schedule.dailySchedules.find((dailySchedule)=>{
         return dailySchedule.date === moment().format('YYYY년 M월 D일');
@@ -42,6 +48,18 @@ function Main(props : MainProps) {
     }
     
   },[schedule])
+
+  useEffect(()=>{
+    if(stampBoard){
+      if(isStampBoardLoaded){
+        set(ref(props.db, `users/${props.auth.currentUser.uid}/stampBoard`),stampBoard);
+      }else{
+        setIsStampBoardLoaded(true);
+      }
+      
+    }
+    
+  },[stampBoard])
 
   useInterval(()=>{    
 
@@ -59,7 +77,10 @@ function Main(props : MainProps) {
 
       if(activatedAlarms?.length>0 && timerInterval===1000){
         activatedAlarms.forEach(alarm=>{
-          alert(alarm.name)
+          var notification = new Notification('일정 알림', {
+            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+            body: alarm.name,
+          });          
         })
         setTimerInterval(1000*(60-Number(moment().format('s'))));
       }
@@ -69,17 +90,34 @@ function Main(props : MainProps) {
   useEffect(()=>{    
 
     onValue(ref(props.db, 'users/'+props.auth.currentUser.uid),(snapshot)=>{
-      setSchedule(snapshot.val());      
+      setSchedule(snapshot.val().schedule);   
+      setStampBoard(snapshot.val().stampBoard);
     });
+
+    Notification.requestPermission();
+    
+    
     
   },[])
 
   return (
     <div className="main">
       <Header/>
-      <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-      <TodoList  schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isLoaded={isLoaded} />
-      <Menu signOut={()=>props.auth.signOut()}/>
+      {
+        {
+          'schedule': 
+          <>
+            <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+            <TodoList  schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isScheduleLoaded={isScheduleLoaded} />
+          </>,
+          'stamp': 
+          <>
+            <_StampBoard stampBoard={stampBoard} setStampBoard={setStampBoard}/>
+          </>
+        }[mainPageState]
+      }
+      
+      <Menu setMainPageState={setMainPageState} signOut={()=>props.auth.signOut()}/>
     </div>
   )
 }

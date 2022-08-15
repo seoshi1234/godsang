@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import { firebaseConfig } from './firebaseConfig';
 import { initializeApp } from 'firebase/app';
+
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "firebase/auth";
 import {getDatabase, set, ref, Database, get, push, update} from "firebase/database"
-import { Schedule, generateRandomSchedule } from './Models/Model';
+import { Schedule, generateRandomSchedule, generateRandomStampBoard } from './Models/Model';
 
 import {
   useDisclosure,
@@ -24,12 +25,13 @@ import {
 import LandingPage from './Pages/LandingPage';
 import Main from './Pages/Main';
 
+
 function App() {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
   const db = getDatabase(app,"https://godsangsalgi-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
+  
   
   const [user,setUser] = useState<User|null>(null)
 
@@ -54,10 +56,9 @@ function App() {
     .then((authUser)=>{
 
       const schedule = generateRandomSchedule(authUser.user.uid);
+      const stampBoard = generateRandomStampBoard(authUser.user.uid);
 
-      console.log(schedule);
-
-      set(ref(db, 'users/' + authUser.user.uid),schedule)
+      set(ref(db, 'users/' + authUser.user.uid),{schedule:schedule, stampBoard:stampBoard})
       .then()
       .catch((reason)=>console.log(reason));
       

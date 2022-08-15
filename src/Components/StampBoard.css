@@ -1,0 +1,59 @@
+.stampGoalsContainer{
+  display: flex;
+  float: left;
+}
+
+.stampGoal{
+  background-color: var(--chakra-colors-gray-100);
+  margin:20px;
+  border-radius:15px;
+  padding:20px;
+  user-select: none;
+  
+}
+.stampGoal.selected{
+  color: #eee;
+  background-color: var(--chakra-colors-facebook-500);
+  
+}
+
+.stampGoal .chakra-numberinput{
+  border-color: #333333;
+  transition: all .1s 0s ease-in-out;
+  background-color: var(--chakra-colors-gray-100);
+  color: black;
+}
+
+.stampGoal .chakra-numberinput:hover{
+  border-color: black;
+}
+
+.stampContainer{
+  display: flex;
+  float: left;
+  max-width: 600px;
+  flex-wrap: wrap;
+}
+
+.stamp{
+  width: 100px;
+  height: 50px;
+  background-color: var(--chakra-colors-gray-200);
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.stampChild{
+  font-family: 'Sedgwick Ave Display', cursive;
+  font-size: 25px;
+  border: 4px dashed black;
+  border-radius: 10px;
+  width: 80%;
+  height: 80%;
+  text-align: center;
+  user-select: none;
+}

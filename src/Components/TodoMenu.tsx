@@ -17,22 +17,27 @@ import './TodoMenu.css'
 import { useClickOutside } from '../Hooks'
 import ButtonWithIcon from './ButtonWithIcon'
 import { ArrowDownIcon, CopyIcon, DeleteIcon, TimeIcon } from '@chakra-ui/icons'
-import { BsArrowReturnLeft } from 'react-icons/bs'
+import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
+import TodoMoveMenu from './TodoMoveMenu'
 
 
 interface TodoMenuProps{
   idx:number
   timer:string|null
   onTimerChange
+  deleteTimer
   toggleMenu:boolean
   closeMenu:()=>void
   copyTodo
   pasteTodo
   deleteTodo
+  moveTodo
   
 }
 
 function TodoMenu(props:TodoMenuProps) {
+
+  const [moveMenuToggle,setMoveMenuToggle] = useState<boolean>(false);
 
   const wrapperRef = useRef(null);
 
@@ -42,13 +47,20 @@ function TodoMenu(props:TodoMenuProps) {
 
   const { isOpen:isTimerModalOpen, onOpen:onTimerModalOpen, onClose:onTimerModalClose } = useDisclosure()
 
+  useEffect(()=>{
+    if(!props.toggleMenu) setMoveMenuToggle(false);
+  },[props.toggleMenu])
+
   return (
     <Box ref={wrapperRef} bg={'gray'}  className={`todoMenu ${props.toggleMenu && 'opened'}`}>
       
       <ButtonWithIcon onClick={onTimerModalOpen} colorScheme={'gray'} icon={<TimeIcon/>}>타이머설정</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.copyTodo(props.idx)} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.pasteTodo(props.idx)} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
+      <ButtonWithIcon id='openMoveMenu' onClick={()=>setMoveMenuToggle(true)} colorScheme={'gray'} icon={<BsArrowsMove/>}>이동하기
+      <TodoMoveMenu moveTodo={props.moveTodo} toggleMenu={moveMenuToggle} closeMenu={()=>setMoveMenuToggle(false)}/></ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.deleteTodo(props.idx)} colorScheme={'red'} icon={<DeleteIcon/>}>삭제하기</ButtonWithIcon>
+            
 
       <Modal isOpen={isTimerModalOpen} onClose={onTimerModalClose}>
         <ModalOverlay />
@@ -60,13 +72,20 @@ function TodoMenu(props:TodoMenuProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={onTimerModalClose}>
+            <Button colorScheme='facebook' mr={3} onClick={onTimerModalClose}>
               완료
-            </Button>            
+            </Button>
+            <Button colorScheme='red' mr={3} onClick={()=>{
+              onTimerModalClose();
+              props.deleteTimer(props.idx); 
+              }}>
+              타이머삭제
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
       
+
     </Box>
     
   )

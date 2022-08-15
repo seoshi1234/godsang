@@ -6,7 +6,6 @@ export interface DailyTodos{
 }
 
 export interface Schedule{
-  goals : Array<Goal>  
   dailySchedules : Array<DailyTodos>
   uid:string
 }
@@ -15,12 +14,6 @@ export interface Todo{
   name:string,
   completed:boolean, 
   timer:string|null,
-}
-
-export interface Goal{
-  completed: boolean,
-  due:string,
-  content: string
 }
 
 export const getUncompletedTodoCount=(todos:Array<Todo>)=>{
@@ -34,33 +27,26 @@ export const getUncompletedTodoCount=(todos:Array<Todo>)=>{
 
 export const generateRandomSchedule:(string)=>Schedule =(uid:string)=>{
 
-  const today = new Date();
-  const afterMonth = new Date();
-  afterMonth.setDate(afterMonth.getDate() + 30);
+  const today = new Date();  
 
-  let goalContent = '';
+  let todoContent = '';
 
-  switch(Math.floor(Math.random()) * 3){
+  switch(Math.floor(Math.random()*3)){
     case 0:
-      goalContent = '턱걸이 10개 성공';
+      todoContent = '고양이 밥주기';
       break;
     case 1:
-      goalContent = '롤 티어 골드 달성'
+      todoContent = '쿠키런 출석체크하기'
       break;
     case 2:
-      goalContent = '수학 성적 20점 올리기'
+      todoContent = '헬스장 가기'
   }
 
   const schedule:Schedule = {
-    goals: [{
-      completed : false,
-      due: moment(afterMonth).format("YYYY년 M월 D일"),
-      content : goalContent
-    }],
     dailySchedules: [{
       date: moment(today).format("YYYY년 M월 D일"),
       todos: [{
-        name: '고양이 밥주기',
+        name: todoContent,
         completed: false,
         timer: null,
       }]
@@ -69,4 +55,50 @@ export const generateRandomSchedule:(string)=>Schedule =(uid:string)=>{
   }
 
   return schedule
+}
+
+export interface StampBoard{
+  stampGoals:Array<StampGoal>
+  uid:string
+}
+
+export interface StampGoal{
+  name:string
+  stampCount:number
+  stamps:Array<Stamp>
+}
+
+export interface Stamp{
+  date:string
+}
+
+export const generateRandomStampBoard:(string)=>StampBoard =(uid:string)=>{
+
+  const today = new Date();  
+
+  let goalContent = '';
+
+  switch(Math.floor(Math.random()*3)){
+    case 0:
+      goalContent = '매일 아침 푸쉬업 3세트';
+      break;
+    case 1:
+      goalContent = '매일 DevLog 작성'
+      break;
+    case 2:
+      goalContent = '매일 산책 30분하기'
+  }
+
+  const stampBoard:StampBoard = {
+    stampGoals:[{
+      name:goalContent,
+      stampCount:18,
+      stamps:[{
+        date:moment(today).format("M/D")
+      }]
+    }],
+    uid:uid
+  }
+
+  return stampBoard
 }

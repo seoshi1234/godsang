@@ -1,7 +1,7 @@
 .todoList{
   margin: 60px;
   
-  max-width: 500px;
+  
   height: 500px;
   float: left;
 }
@@ -9,7 +9,8 @@
 .todoList__todo{
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: center;  
+  width: 50%;
 }
 
 .todoList__todo input{
@@ -18,5 +19,6 @@
 
 .todoList__todo span{
   border-color: var(--chakra-colors-facebook-500);
+  
 }
 

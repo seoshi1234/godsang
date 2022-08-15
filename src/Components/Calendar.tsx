@@ -17,7 +17,7 @@ import {
   Heading,
   IconButton,  
 } from '@chakra-ui/react'
-import { ChevronUpIcon,ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronUpIcon,ChevronDownIcon, CheckIcon } from '@chakra-ui/icons';
 import { CSSObject } from '@emotion/react';
 import { getUncompletedTodoCount, Schedule } from '../Models/Model';
 
@@ -111,8 +111,8 @@ function Calendar(props:CalendarProps) {
       <Box className="calendar__navigation">
         <Heading size={'lg'} as='h2'>{moment(dateObject).format("M월 YYYY")}</Heading>
         <div className='calendar__navigationBtns'>
-          <Button onClick={increaseMonth}><ChevronUpIcon/></Button>
-          <Button onClick={decreaseMonth} ml={2}><ChevronDownIcon/></Button>
+          <Button onClick={decreaseMonth}><ChevronUpIcon/></Button>
+          <Button onClick={increaseMonth} ml={2}><ChevronDownIcon/></Button>
         </div>
       </Box>
 
@@ -168,10 +168,18 @@ function Calendar(props:CalendarProps) {
                           {d}
                           <br/>
                           {
-                            currentSchedule && getUncompletedTodoCount(currentSchedule.todos)>0 &&
+                            currentSchedule && 
+                            currentSchedule.todos ?
+                            getUncompletedTodoCount(currentSchedule.todos)>0 ?
                             <Box >
                             &nbsp; • {getUncompletedTodoCount(currentSchedule.todos)}
                             </Box>
+                            :
+                            <Box >
+                            &nbsp; <CheckIcon/>
+                            </Box>
+                            :
+                            <></>
                           }
                         </Button>                        
                       </Td>
