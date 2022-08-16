@@ -1,15 +1,18 @@
 .stampGoalsContainer{
   display: flex;
+  flex-wrap: wrap;
   float: left;
+  width: 400px;
+  margin: 20px;
 }
 
 .stampGoal{
   background-color: var(--chakra-colors-gray-100);
-  margin:20px;
+  margin:10px;
   border-radius:15px;
   padding:20px;
   user-select: none;
-  
+  width: 100%;
 }
 .stampGoal.selected{
   color: #eee;

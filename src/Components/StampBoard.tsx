@@ -4,12 +4,16 @@ import './StampBoard.css'
 
 import
 {
-  Box, Heading, Text,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  Box,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
 } from '@chakra-ui/react'
 import StampGoalElement from './StampGoalElement'
 import moment from 'moment'
@@ -22,6 +26,7 @@ interface StampBoardProps{
 function _StampBoard(props:StampBoardProps) {
 
   const [selectedGoalIdx, setSelectedGoalIdx] = useState<number>(-1);
+  const { isOpen:isAddGoalOpen, onOpen:onAddGoalOpen, onClose:onAddGoalClose } = useDisclosure()
 
   const handleGoalClick=(idx)=>{    
     setSelectedGoalIdx(idx===selectedGoalIdx ? -1 : idx);
@@ -52,8 +57,6 @@ function _StampBoard(props:StampBoardProps) {
   }
 
   const renderStampContainer=(stampGoal:StampGoal)=>{
-
-
     let stamps=[];
 
     for(let i = 0; i<stampGoal.stampCount; i++){
@@ -99,12 +102,27 @@ function _StampBoard(props:StampBoardProps) {
             )
           })
         }
+        <Button className='stampGoal' onClick={onAddGoalOpen}>루틴 추가하기</Button>
       </Box>
       {
         selectedGoalIdx != -1 &&
-        renderStampContainer(props.stampBoard.stampGoals[selectedGoalIdx])
-        
+        renderStampContainer(props.stampBoard.stampGoals[selectedGoalIdx])        
       }
+      <Modal isOpen={isAddGoalOpen} onClose={onAddGoalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>루틴 추가하기</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>            
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='ghost'>Secondary Action</Button>
+            <Button colorScheme='facebook' mr={3} onClick={onAddGoalClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }
