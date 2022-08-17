@@ -56,10 +56,46 @@ function _StampBoard(props:StampBoardProps) {
     props.setStampBoard(newStampBoard);
   }
 
+  const onStampNameChange=(value:string, idx:number)=>{
+    let newStampBoard = {...props.stampBoard};
+    newStampBoard.stampGoals[idx].name = value;
+    
+    props.setStampBoard(newStampBoard);
+  }
+
+  const addStampGoal=()=>{
+    let newStampBoard = {...props.stampBoard};
+    if(newStampBoard.stampGoals){
+      newStampBoard.stampGoals.push({
+        name:'',
+        stampCount:18,
+        stamps:[]
+      });
+    }else{
+      newStampBoard.stampGoals=[{
+        name:'',
+        stampCount:18,
+        stamps:[]
+      }];
+    }
+
+    props.setStampBoard(newStampBoard);
+
+  }
+
+  const deleteStampGoal=(idx:number)=>{
+    setSelectedGoalIdx(-1);
+    let newStampBoard = {...props.stampBoard};
+    newStampBoard.stampGoals.splice(idx,1)
+
+    props.setStampBoard(newStampBoard);
+
+  }
+
   const renderStampContainer=(stampGoal:StampGoal)=>{
     let stamps=[];
 
-    for(let i = 0; i<stampGoal.stampCount; i++){
+    for(let i = 0; i<stampGoal?.stampCount; i++){
 
       let stampChild = stampGoal.stamps?.length > i && 
       <Box className='stampChild'>
@@ -97,12 +133,14 @@ function _StampBoard(props:StampBoardProps) {
               handleGoalClick={handleGoalClick} 
               idx={i}
               onStampCountChange={onStampCountChange}
+              onStampNameChange={onStampNameChange}
+              deleteStampGoal={deleteStampGoal}
               selectedGoalIdx={selectedGoalIdx}
               stampGoal={stampGoal}/>
             )
           })
         }
-        <Button className='stampGoal' onClick={onAddGoalOpen}>루틴 추가하기</Button>
+        <Button className='stampGoal' onClick={addStampGoal}>루틴 추가하기</Button>
       </Box>
       {
         selectedGoalIdx != -1 &&

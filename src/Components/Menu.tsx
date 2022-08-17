@@ -10,6 +10,7 @@ import ButtonWithIcon from './ButtonWithIcon'
 
 interface MenuProps{
   signOut :()=>void
+  mainPageState:'stamp'|'schedule'
   setMainPageState
 }
 

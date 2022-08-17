@@ -16,12 +16,12 @@
 }
 .stampGoal.selected{
   color: #eee;
-  background-color: var(--chakra-colors-facebook-500);
+  background-color: var(--chakra-colors-blue-400);
   
 }
 
 .stampGoal .chakra-numberinput{
-  border-color: #333333;
+  border-color: var(--chakra-colors-gray-400);
   transition: all .1s 0s ease-in-out;
   background-color: var(--chakra-colors-gray-100);
   color: black;
@@ -30,6 +30,15 @@
 .stampGoal .chakra-numberinput:hover{
   border-color: black;
 }
+
+.stampGoal input{
+  border-color: var(--chakra-colors-gray-400);
+  transition: all .1s 0s ease-in-out;
+  background-color: var(--chakra-colors-gray-100);
+  color: black;
+}
+
+
 
 .stampContainer{
   display: flex;

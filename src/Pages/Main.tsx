@@ -117,7 +117,7 @@ function Main(props : MainProps) {
         }[mainPageState]
       }
       
-      <Menu setMainPageState={setMainPageState} signOut={()=>props.auth.signOut()}/>
+      <Menu mainPageState={mainPageState} setMainPageState={setMainPageState} signOut={()=>props.auth.signOut()}/>
     </div>
   )
 }

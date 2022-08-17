@@ -52,7 +52,7 @@ function TodoMenu(props:TodoMenuProps) {
   },[props.toggleMenu])
 
   return (
-    <Box ref={wrapperRef} bg={'gray'}  className={`todoMenu ${props.toggleMenu && 'opened'}`}>
+    <Box ref={wrapperRef} className={`todoMenu ${props.toggleMenu && 'opened'}`}>
       
       <ButtonWithIcon onClick={onTimerModalOpen} colorScheme={'gray'} icon={<TimeIcon/>}>타이머설정</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.copyTodo(props.idx)} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>

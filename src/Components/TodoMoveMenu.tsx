@@ -23,7 +23,7 @@ function TodoMoveMenu(props:TodoMoveMenuProps) {
   },wrapperRef)
 
   return (
-    <Box ref={wrapperRef} bg={'gray'}  className={`todoMenu ${props.toggleMenu && 'opened'}`}>
+    <Box ref={wrapperRef} className={`todoMenu ${props.toggleMenu && 'opened'}`}>
       
       <ButtonWithIcon onClick={()=>props.moveTodo('up')} colorScheme={'gray'} icon={<ArrowUpIcon/>}>위로</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.moveTodo('down')} colorScheme={'gray'} icon={<ArrowDownIcon/>}>아래로</ButtonWithIcon>
