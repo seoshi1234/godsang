@@ -108,7 +108,7 @@ function Main(props : MainProps) {
           'schedule': 
           <>
             <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-            <TodoList  schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isScheduleLoaded={isScheduleLoaded} />
+            <TodoList schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isScheduleLoaded={isScheduleLoaded} />
           </>,
           'stamp': 
           <>

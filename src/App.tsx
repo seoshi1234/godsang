@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react'
 import LandingPage from './Pages/LandingPage';
 import Main from './Pages/Main';
+import { validateEmail, verifyPassword } from './Functions';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
   const db = getDatabase(app,"https://godsangsalgi-default-rtdb.asia-southeast1.firebasedatabase.app/");
+  auth.useDeviceLanguage();
   
   
   const [user,setUser] = useState<User|null>(null)
@@ -41,10 +43,13 @@ function App() {
   const [email,setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
   const [confirmPassword,setConfirmPassword] = useState<string>("");  
-  let isSignUpError = password !== confirmPassword || email === '' || password === '';
-  let isSignInError = email === '' || password === '';
-
   
+  let isEmailError = validateEmail(email) == null;
+  let isPasswordError = verifyPassword(password) !== '';
+  let isConfirmPasswordError = password!==confirmPassword || confirmPassword === '';
+  let isSignUpError = (isEmailError || isPasswordError || isConfirmPasswordError);
+  let isSignInError = (isEmailError || isPasswordError);
+
 
 
   const signUp = (event)=>{
@@ -66,7 +71,7 @@ function App() {
       
     })
     .catch((error)=>{
-
+      
       alert(error.message)
       console.log(error)
     })
@@ -123,16 +128,22 @@ function App() {
             <ModalHeader>3초 회원가입</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Input mb={4} placeholder='이메일' onChange={(e)=>setEmail(e.target.value)} value={email} id='email' type='email'></Input>                
-                <Input mb={2} id='password' type='password' placeholder='비밀번호' onChange={(e)=>setPassword(e.target.value)} value={password}></Input>                
-                <Input id='confirmPassword' type='password' placeholder='비밀번호 한번더!' onChange={(e)=>setConfirmPassword(e.target.value)}></Input>
+                <Input isInvalid={isEmailError} placeholder='이메일' onChange={(e)=>{setEmail(e.target.value); console.log(validateEmail(email))}} value={email} id='email' type='email'></Input>                
                 {
-                  email===''?
-                  <FormErrorMessage>이메일을 입력하세요!</FormErrorMessage>:
-                  password===''?
-                  <FormErrorMessage>비밀번호를 입력하세요!</FormErrorMessage>:
-                  password!==confirmPassword?
-                  <FormErrorMessage>비밀번호가 같아야되요!</FormErrorMessage>:
+                  isEmailError?
+                  <FormErrorMessage>이메일 형식이 아니에요!</FormErrorMessage>:
+                  <></>
+                }
+                <Input isInvalid={isPasswordError} mt={4} id='password' type='password' placeholder='비밀번호' onChange={(e)=>setPassword(e.target.value)} value={password}></Input>                
+                {
+                  isPasswordError?
+                  <FormErrorMessage>{verifyPassword(password)}</FormErrorMessage>:
+                  <></>
+                }
+                <Input isInvalid={isConfirmPasswordError} mt={2} id='confirmPassword' type='password' placeholder='비밀번호 한번더!' onChange={(e)=>setConfirmPassword(e.target.value)}></Input>
+                {
+                  isConfirmPasswordError?
+                  <FormErrorMessage>비밀번호를 한번더 입력하세요!</FormErrorMessage>:
                   <></>
                 }
             </ModalBody>
@@ -154,15 +165,18 @@ function App() {
             <ModalHeader>로그인</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Input mb={4} placeholder='이메일' onChange={(e)=>setEmail(e.target.value)} value={email} id='email' type='email'></Input>                
-                <Input mb={2} id='password' type='password' placeholder='비밀번호' onChange={(e)=>setPassword(e.target.value)} value={password}></Input>                                
-                {
-                  email===''?
-                  <FormErrorMessage>이메일을 입력하세요!</FormErrorMessage>:
-                  password===''?
-                  <FormErrorMessage>비밀번호를 입력하세요!</FormErrorMessage>:                  
-                  <></>
-                }
+              <Input isInvalid={isEmailError} placeholder='이메일' onChange={(e)=>{setEmail(e.target.value); console.log(validateEmail(email))}} value={email} id='email' type='email'></Input>                
+              {
+                isEmailError?
+                <FormErrorMessage>이메일 형식이 아니에요!</FormErrorMessage>:
+                <></>
+              }
+              <Input isInvalid={isPasswordError} mt={4} id='password' type='password' placeholder='비밀번호' onChange={(e)=>setPassword(e.target.value)} value={password}></Input>                
+              {
+                isPasswordError?
+                <FormErrorMessage>{verifyPassword(password)}</FormErrorMessage>:
+                <></>
+              }
             </ModalBody>
             <ModalFooter>
               <Button colorScheme='facebook' mr={3} onClick={signIn} type='submit'>
