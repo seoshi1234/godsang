@@ -6,6 +6,16 @@
   float: left;
 }
 
+.todoList__header{
+  display: flex;
+  position: relative;
+  align-items: center;  
+  width: 52%;
+  justify-content: space-between;
+  text-align: center;
+  align-content: center;
+}
+
 .todoList__todo{
   display: flex;
   position: relative;

@@ -3,6 +3,7 @@ import moment from 'moment'
 export interface DailyTodos{
   date:string,
   todos : Array<Todo>
+  diary?:string|null
 }
 
 export interface Schedule{

@@ -1,10 +1,13 @@
 import { AddIcon } from '@chakra-ui/icons';
+import { BsThreeDots } from 'react-icons/bs';
 import { Heading, Box, Checkbox, Input, StyleObjectOrFn, Button } from '@chakra-ui/react';
 import moment from 'moment'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { DailyTodos, Schedule, Todo } from '../Models/Model'
 import TodoElement from './TodoElement';
 import './TodoList.css';
+import ScheduleMenu from './ScheduleMenu';
+import {useDebouncedEffect} from '../Hooks'
 
 interface TodoListProps{
   isScheduleLoaded:boolean,
@@ -17,6 +20,7 @@ function TodoList(props:TodoListProps) {
 
   const [selectedSchedule, setSelectedSchedule] = useState<DailyTodos>(null);
   const [todoClipboard, setTodoClipboard] = useState<Todo>(null);
+  const [toggleScheduleMenu, setToggleScheduleMenu] = useState<boolean>(false);
 
   const onCompletedCheck=(value:boolean, i:number)=>{
     const newSelectedSchedule = {...selectedSchedule};
@@ -36,11 +40,28 @@ function TodoList(props:TodoListProps) {
     setSelectedSchedule(newSelectedSchedule);
   }
 
+  const onDiaryChange=(value:string|null)=>{
+
+    if(!selectedSchedule){
+      const newSelectedSchedule:DailyTodos = {
+        date:props.selectedDate.format("YYYY년 M월 D일"),
+        todos:[],
+        diary:value,
+      }
+      setSelectedSchedule(newSelectedSchedule);
+    }
+    else{
+      const newSelectedSchedule = {...selectedSchedule};
+      newSelectedSchedule.diary=value;
+      setSelectedSchedule(newSelectedSchedule);
+    }
+  }
+
   const deleteTimer=(i:number)=>{
     const newSelectedSchedule = {...selectedSchedule};
     newSelectedSchedule.todos[i].timer = null;
     setSelectedSchedule(newSelectedSchedule);
-  } 
+  }  
 
   const addTodo=()=>{
 
@@ -50,7 +71,7 @@ function TodoList(props:TodoListProps) {
         todos:[{
           completed:false,
           name:'',
-          timer:null
+          timer:null          
         }]
       }
       setSelectedSchedule(newSelectedSchedule);
@@ -187,7 +208,16 @@ function TodoList(props:TodoListProps) {
 
   return (
     <Box className="todoList" width={'container.sm'}>
-      <Heading as={'h2'} mb={5}>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
+      <Box className='todoList__header' mb={5}>
+        <Heading as={'h2'} fontSize='3xl'>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
+        <Button onClick={()=>setToggleScheduleMenu(!toggleScheduleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
+        <ScheduleMenu 
+        closeMenu={()=>setToggleScheduleMenu(false)} 
+        toggleMenu={toggleScheduleMenu}
+        diary={selectedSchedule?.diary} 
+        deleteDiary={()=>{onDiaryChange(null)}}
+        onDiaryChange={onDiaryChange}/>
+      </Box>
       {
         selectedSchedule&&
         selectedSchedule.todos?.map((todo,i)=>{

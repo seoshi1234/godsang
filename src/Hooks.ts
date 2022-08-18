@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 export const useClickOutside=(cb:()=>void,ref)=>{
   useEffect(() => {
@@ -31,3 +31,17 @@ export const useInterval=(callback:()=>void, delay:number)=>{
   }, [delay]);
   return intervalRef;
 }
+
+export const useDebouncedEffect = (func:()=>void, delay:number, deps:React.DependencyList) => {
+  const callback = useCallback(func, deps);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      callback();
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [callback, delay]);
+};

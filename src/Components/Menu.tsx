@@ -28,10 +28,10 @@ function Menu(props:MenuProps) {
     <div className="menu">
       
       <Box className="menu__btns" mt={3} opacity={menuOpened ? '100%' : '0%'} left={menuOpened ? '0px' : '-200px'} transitionDuration={'.2s'}>        
-        <ButtonWithIcon onClick={()=>props.setMainPageState('schedule')} icon={<CalendarIcon/>}>스케쥴러</ButtonWithIcon>
+        <ButtonWithIcon colorScheme={props.mainPageState === 'schedule' ? 'facebook' : 'gray'} onClick={()=>props.setMainPageState('schedule')} icon={<CalendarIcon/>}>스케쥴러</ButtonWithIcon>
       </Box>
       <Box className="menu__btns" mt={3} opacity={menuOpened ? '100%' : '0%'} left={menuOpened ? '0px' : '-200px'} transitionDuration={'.15s'}>        
-        <ButtonWithIcon onClick={()=>props.setMainPageState('stamp')} icon={<FaStamp/>}>도장판</ButtonWithIcon>
+        <ButtonWithIcon colorScheme={props.mainPageState === 'stamp' ? 'facebook' : 'gray'} onClick={()=>props.setMainPageState('stamp')} icon={<FaStamp/>}>도장판</ButtonWithIcon>
       </Box>
       <Box className="menu__btns" mt={3} opacity={menuOpened ? '100%' : '0%'} left={menuOpened ? '0px' : '-200px'} transitionDuration={'.1s'}>        
         <ButtonWithIcon onClick={props.signOut} colorScheme={'red'} icon={<GoSignOut/>}>로그아웃</ButtonWithIcon>
