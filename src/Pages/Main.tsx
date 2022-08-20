@@ -69,7 +69,7 @@ function Main(props : MainProps) {
 
       const currentTime = moment().format('HH:mm');
 
-      const activatedAlarms = todaySchedule.todos.filter(todo=>{
+      const activatedAlarms = todaySchedule.todos?.filter(todo=>{
         return todo.timer === currentTime;
       })        
 

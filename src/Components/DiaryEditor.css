@@ -1,0 +1,85 @@
+.diaryEditor{
+  width:100%;  
+  margin:0;
+  display: flex;
+  
+}
+
+.diaryEditor textarea, .diaryEditor textarea:focus{
+  width: 50%;
+  padding: 10px;
+  border-radius: 0px;
+  border: 2px solid black;
+  border-right: 0px;
+  height: 70vh;
+  resize: none;
+  outline: none;
+}
+
+.diaryPreview{
+  width:50%;
+  padding: 10px;
+  margin: 0;
+  border-radius: 0;
+  border: 2px solid black;
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.diaryPreview>*{
+  margin-bottom: 5px !important;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-weight: bold !important;
+}
+
+h1{  
+  font-size: xx-large !important;
+}
+
+h2{
+  font-size: x-large !important;
+}
+
+h3{
+  font-size: larger !important;
+}
+
+h4{
+  font-size: large !important;
+}
+
+h5{
+  font-size: medium !important;
+}
+
+h6{
+  font-size: small !important;
+}
+
+ul,ol {
+  list-style-position: inside;
+}
+
+blockquote {  
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 10px;
+  background-color: #eee;
+  border-left: 10px solid gray;
+}
+
+hr{
+  margin-top: 13px !important;
+  height: 5px !important;
+  border-top-width: 3px !important;
+}
+
+code{
+  background-color: #eee;
+}
+pre{
+  background-color: #eee;
+  padding: 10px;
+}

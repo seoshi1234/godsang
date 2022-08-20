@@ -19,6 +19,7 @@ import { useClickOutside } from '../Hooks'
 import ButtonWithIcon from './ButtonWithIcon'
 import { ArrowDownIcon, CopyIcon, DeleteIcon, EditIcon, TimeIcon } from '@chakra-ui/icons'
 import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
+import DiaryEditor from './DiaryEditor'
 
 
 interface ScheduleMenuProps{  
@@ -54,10 +55,9 @@ function ScheduleMenu(props:ScheduleMenuProps) {
         <ModalContent>
           <ModalHeader>일기 작성</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <Textarea value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>            
+          <ModalBody __css={{fontSize:'unset'}}>
+            <DiaryEditor diary={props.diary} onDiaryChange={props.onDiaryChange}/>
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme='facebook' mr={3} onClick={onDiaryModalClose}>
               완료
