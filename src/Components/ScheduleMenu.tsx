@@ -53,7 +53,7 @@ function ScheduleMenu(props:ScheduleMenuProps) {
       <Modal isOpen={isDiaryModalOpen} onClose={onDiaryModalClose} size='full'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>일기 작성</ModalHeader>
+          <ModalHeader fontSize={'3xl'}>일기 작성</ModalHeader>
           <ModalCloseButton />
           <ModalBody __css={{fontSize:'unset'}}>
             <DiaryEditor diary={props.diary} onDiaryChange={props.onDiaryChange}/>

@@ -40,8 +40,7 @@ function TodoList(props:TodoListProps) {
     setSelectedSchedule(newSelectedSchedule);
   }
 
-  const onDiaryChange=(value:string|null)=>{
-
+  const onDiaryChange=(value:string|null)=>{    
     if(!selectedSchedule){
       const newSelectedSchedule:DailyTodos = {
         date:props.selectedDate.format("YYYY년 M월 D일"),

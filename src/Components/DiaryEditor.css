@@ -2,16 +2,17 @@
   width:100%;  
   margin:0;
   display: flex;
-  
+  flex-wrap: wrap;
+  color: #444;
 }
 
 .diaryEditor textarea, .diaryEditor textarea:focus{
   width: 50%;
   padding: 10px;
   border-radius: 0px;
-  border: 2px solid black;
+  border: 1px solid lightgray;
   border-right: 0px;
-  height: 70vh;
+  height: 65vh;
   resize: none;
   outline: none;
 }
@@ -21,13 +22,53 @@
   padding: 10px;
   margin: 0;
   border-radius: 0;
-  border: 2px solid black;
-  height: 70vh;
+  border: 1px solid lightgray;
+  height: 65vh;
   overflow-y: scroll;
 }
 
 .diaryPreview>*{
   margin-bottom: 5px !important;
+}
+
+.diaryEditor__headers{
+  display: flex;
+  width: 100%;
+  background-color: #eee;
+}
+
+.diaryEditor__headers>h3{
+  width: 50%;
+  padding: 8px;
+  border: 1px solid lightgray;
+  border-bottom: 0px;
+}
+
+.diaryEditor__headers>h3:first-child{
+  border-right: 0px;
+}
+
+.diaryEditor__toolbar{
+  display: flex;
+  width: 100%;
+  background-color: #eee;
+  border: 1px solid lightgray;
+  border-bottom: 0;
+}
+
+.diaryEditor__toolbar button{
+  border-radius: 0;
+}
+
+.diaryEditor__toolbar svg{
+  width: 32px;
+  height: 32px;
+  padding: 6px;  
+  color: #777;
+}
+
+.diaryEditor__toolbar svg:hover{
+  color: #222;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -62,6 +103,11 @@ ul,ol {
   list-style-position: inside;
 }
 
+ul li::marker {  
+  font-size: large;
+  content: "• ";
+}
+
 blockquote {  
   margin-left: 0px;
   margin-right: 0px;
@@ -82,4 +128,27 @@ code{
 pre{
   background-color: #eee;
   padding: 10px;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 1px;
+  text-align: center;
+  line-height: 1.5;
+  margin: 20px 10px;
+}
+table th {
+  
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  color: #fff;
+  background: #555;
+}
+table td {
+  
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ccc;
+  background: #eee;
 }

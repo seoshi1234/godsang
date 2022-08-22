@@ -18,4 +18,41 @@ export const verifyPassword=(pw:string)=>{
   else if(pw.length > 15) errorMessage = "15자를 넘으면 안되요!";  
 
   return errorMessage;
-}  
+}
+
+export interface SelectOption{
+  start:number
+  end:number
+}
+
+export const insertAtCursor=(myField:HTMLTextAreaElement, onChange:(value:string)=>void, myValue:string, selectOptions?:SelectOption)=>{
+  
+  if (myField.selectionStart || myField.selectionStart == 0) {
+      let startPos = myField.selectionStart;
+      let endPos = myField.selectionEnd;
+      myField.value = myField.value.substring(0, startPos)
+          + myValue
+          + myField.value.substring(endPos, myField.value.length);
+      
+      const finalPos = startPos + myValue.length;
+      
+      myField.focus();
+
+      const fullText = myField.value;
+      myField.value = fullText.substring(0, finalPos);
+      myField.scrollTop = myField.scrollHeight;
+      myField.value = fullText;
+
+      if(selectOptions){
+        startPos = startPos + selectOptions.start;
+        endPos = finalPos - selectOptions.end;
+        myField.setSelectionRange(startPos, endPos);
+      }
+      else myField.setSelectionRange(finalPos, finalPos);
+
+  } else {
+      myField.value += myValue;
+  }
+
+  onChange(myField.value);
+}
