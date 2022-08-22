@@ -38,6 +38,38 @@
 }
 
 
+.alertModal{
+  background-color: rgba(0, 0, 0, .5);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
 
+.alertModal.enabled{
+  pointer-events: all;
+  opacity: 100%;
+}
 
+.alertModal div{
+  border-radius: 16px;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  height: fit-content;
+  transform: translateY(-10%) scale(.9);
+  transition: all .1s 0s ease-in-out;
+}
+
+.alertModal.enabled div{
+  transform: translateY(0) scale(1);
+}
 
