@@ -1,0 +1,24 @@
+.diaries{
+  display: flex;
+  flex-wrap: wrap;  
+}
+
+.diaries__upper{
+  margin: 20px;
+  width: 100%;
+}
+
+.diaries__header{
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.diaryInfo{
+  background-color: var(--chakra-colors-gray-100);
+  user-select: none;
+  cursor:pointer;
+  margin-left: 60px;
+  margin-top: 30px;
+  padding:30px
+}

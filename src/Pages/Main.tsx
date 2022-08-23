@@ -27,6 +27,8 @@ function Main(props : MainProps) {
 
   moment.locale('ko');
 
+  const today = moment();
+
   const [mainPageState, setMainPageState] = useState<MainPageType>('schedule');
 
   const [isScheduleLoaded,setIsScheduleLoaded] = useState<boolean>(false);
@@ -71,7 +73,10 @@ function Main(props : MainProps) {
 
       setTimerInterval(1000);
 
+      if(moment().format("M") !== today.format("M")) document.location.reload();
+
       const currentTime = moment().format('HH:mm');
+
 
       const activatedAlarms = todaySchedule.todos?.filter(todo=>{
         return todo.timer === currentTime;
@@ -115,7 +120,7 @@ function Main(props : MainProps) {
           </>,
           'schedule': 
           <>
-            <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+            <Calendar schedule={schedule} today={today} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
             <TodoList schedule={schedule} setSchedule={setSchedule} selectedDate={selectedDate} isScheduleLoaded={isScheduleLoaded} />
           </>,
           'stamp': 

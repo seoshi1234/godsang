@@ -81,39 +81,39 @@ svg:hover::after {
   color: #222;
 }
 
-h1, h2, h3, h4, h5, h6{
+.diaryPreview h1, h2, h3, h4, h5, h6{
   font-weight: bold !important;
 }
 
-h1{  
+.diaryPreview h1{  
   font-size: xx-large !important;
 }
 
-h2{
+.diaryPreview h2{
   font-size: x-large !important;
 }
 
-h3{
+.diaryPreview h3{
   font-size: larger !important;
 }
 
-h4{
+.diaryPreview h4{
   font-size: large !important;
 }
 
-h5{
+.diaryPreview h5{
   font-size: medium !important;
 }
 
-h6{
+.diaryPreview h6{
   font-size: small !important;
 }
 
-ul,ol {
+.diaryPreview ul,ol {
   list-style-position: inside;
 }
 
-ul li::marker {  
+.diaryPreview ul li::marker {  
   font-size: large;
   content: "• ";
 }
@@ -126,16 +126,16 @@ blockquote {
   border-left: 10px solid gray;
 }
 
-hr{
+.diaryPreview hr{
   margin-top: 13px !important;
   height: 5px !important;
   border-top-width: 3px !important;
 }
 
-code{
+.diaryPreview code:not(.hljs){
   background-color: #eee;
 }
-pre{
+.diaryPreview pre{
   background-color: #eee;
   padding: 10px;
 }

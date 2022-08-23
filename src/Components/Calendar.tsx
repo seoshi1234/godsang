@@ -23,6 +23,7 @@ import { getUncompletedTodoCount, Schedule } from '../Models/Model';
 
 interface CalendarProps{
   schedule:Schedule,
+  today:moment.Moment,
   selectedDate:moment.Moment,
   setSelectedDate:Dispatch<SetStateAction<moment.Moment>>,
 }
@@ -30,13 +31,8 @@ interface CalendarProps{
 
 function Calendar(props:CalendarProps) {
 
-  
-
   const weekdayshort:string[] = moment.weekdaysShort();
-  const [dateObject,setDateObject] = useState<moment.Moment>(moment());
-  const [today, setToday] = useState<moment.Moment>(moment());
-  
-  
+  const [dateObject,setDateObject] = useState<moment.Moment>(props.selectedDate.clone())
 
   const increaseMonth = ()=>{
     const currentMonth = moment(dateObject).format("M");
@@ -133,8 +129,8 @@ function Calendar(props:CalendarProps) {
                   }else{
 
                     let isToday = 
-                    dateObject.format("M") === today.format("M") && 
-                    d === Number(today.format("D"));
+                    dateObject.format("M") === props.today.format("M") && 
+                    d === Number(props.today.format("D"));
 
                     let isSelected = 
                     dateObject.format("M") === props.selectedDate.format("M") &&

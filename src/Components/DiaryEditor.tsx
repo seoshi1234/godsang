@@ -135,7 +135,7 @@ function DiaryEditor(props:DiaryEditorProps) {
         <MdFormatQuote onClick={()=>insertAtDiary('> ')} title='인용'/>
         <MdHorizontalRule onClick={()=>insertAtDiary('\n\n---')} title='가로선'/>
         <BsCode strokeWidth={'.4px'} onClick={()=>insertAtDiary('\`single line code\`', {start:1,end:1})} title='인라인 코드'/>
-        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:19, end:4})} title='소스코드'/>
+        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:18, end:4})} title='소스코드'/>
         <ImTable onClick={()=>insertAtDiary('| Head | Head |\n| --- | --- |\n| Data | Data |\n| Data | Data |')} title='차트'/>
         <MdImage onClick={()=>fileInputRef.current.click()} title='이미지'/>
         <MdLink onClick={()=>insertAtDiary('\n[link-name](link-url)', {start:13, end:1})} title='하이퍼링크'/>
@@ -143,8 +143,8 @@ function DiaryEditor(props:DiaryEditorProps) {
       </div>
       
       <div className="diaryEditor__headers">
-        <Heading as={'h3'}>마크다운 에디터</Heading>
-        <Heading as={'h3'}>뷰어</Heading>
+        <Heading as={'h3'} fontSize='xl'>마크다운 에디터</Heading>
+        <Heading as={'h3'} fontSize='xl'>뷰어</Heading>
       </div>
 
       <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>

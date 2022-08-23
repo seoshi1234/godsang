@@ -1,0 +1,47 @@
+.diaryViewer{
+  background-color: rgba(0, 0, 0, .5);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top:0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  pointer-events: none;  
+  opacity: 0;
+  z-index: 10;
+  transition: all .1s 0s ease-in-out;
+}
+
+.diaryViewer.enabled{
+  pointer-events: all;
+  opacity: 100%;
+}
+
+.diaryViewer .diaryPreview{
+  position: absolute;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 20px;
+  height: 0vh;
+  bottom: 0px;
+  background-color: white;
+  transition: all .2s 0s ease-in-out;
+}
+
+.diaryViewer.enabled .diaryPreview{
+  height: 70vh;  
+}
+
+.diaryViewer .diaryPreview::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+  border: 4px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;  
+}
+
+.diaryViewer .diaryPreview::-webkit-scrollbar{
+  width: 16px;
+}

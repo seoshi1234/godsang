@@ -1,10 +1,13 @@
 import React,{useEffect, useRef} from 'react'
 import './DiaryEditor.css'
+import './DiaryViewer.css'
 import hljs from "highlight.js";
 import 'highlight.js/styles/vs2015.css'
 
 interface DiaryViewerProps{
   diary:string
+  enabled:boolean
+  setSelectedDiary
 }
 
 function DiaryViewer(props:DiaryViewerProps) {
@@ -20,9 +23,11 @@ function DiaryViewer(props:DiaryViewerProps) {
   },[props.diary])
 
   return (
-    <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:props.diary}}>
-        
-      </div>
+    <div className={`diaryViewer ${props.enabled && 'enabled'}`} onClick={()=>props.setSelectedDiary(-1)}>
+      <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:props.diary}} onClick={(e)=>e.stopPropagation()}>
+          
+      </div>      
+    </div>
   )
 }
 
