@@ -26,6 +26,8 @@ interface ScheduleMenuProps{
   diary:string|null
   onDiaryChange
   deleteDiary
+  copyTodos
+  pasteTodos
   toggleMenu:boolean
   closeMenu:()=>void
   
@@ -49,6 +51,8 @@ function ScheduleMenu(props:ScheduleMenuProps) {
     <Box ref={wrapperRef} className={`scheduleMenu ${props.toggleMenu && 'opened'}`}>
       
       <ButtonWithIcon onClick={onDiaryModalOpen} colorScheme={'gray'} icon={<EditIcon/>}>일기작성</ButtonWithIcon>
+      <ButtonWithIcon onClick={props.copyTodos} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
+      <ButtonWithIcon onClick={props.pasteTodos} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
 
       <Modal isOpen={isDiaryModalOpen} onClose={onDiaryModalClose} size='full'>
         <ModalOverlay />

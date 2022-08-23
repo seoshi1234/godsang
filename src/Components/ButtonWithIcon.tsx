@@ -2,6 +2,7 @@ import React, { Children, useState } from 'react'
 import {Box, Button} from '@chakra-ui/react'
 
 interface ButtonWithIconProps{
+  className?:string
   colorScheme?:(string & {})
   | "gray" | "blue" | "cyan" | "green" | "orange" | "pink" | "purple" | "red" 
   | "teal" | "yellow" | "whiteAlpha" | "blackAlpha" | "linkedin" | "facebook" 
@@ -17,7 +18,8 @@ function ButtonWithIcon(props:ButtonWithIconProps) {
   const [isHover, setIsHover] = useState<boolean>(false);
 
   return (
-    <Button   
+    <Button
+    className={props.className||''}
     id={props.id}
     onClick={props?.onClick}
     alignContent={'center'}  

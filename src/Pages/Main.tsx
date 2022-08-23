@@ -12,6 +12,8 @@ import TodoList from '../Components/TodoList'
 import { useInterval } from '../Hooks'
 import {randomNotification} from '../Notification'
 import _StampBoard from '../Components/StampBoard'
+import AlertModal from '../Components/AlertModal'
+import Diaries from '../Components/Diaries'
 
 
 interface MainProps{
@@ -19,11 +21,13 @@ interface MainProps{
   db:Database
 }
 
+export type MainPageType = 'schedule' | 'stamp' | 'diary'
+
 function Main(props : MainProps) {
 
   moment.locale('ko');
 
-  const [mainPageState, setMainPageState] = useState<'schedule'|'stamp'>('schedule');
+  const [mainPageState, setMainPageState] = useState<MainPageType>('schedule');
 
   const [isScheduleLoaded,setIsScheduleLoaded] = useState<boolean>(false);
   const [isStampBoardLoaded,setIsStampBoardLoaded] = useState<boolean>(false);
@@ -104,7 +108,11 @@ function Main(props : MainProps) {
     <div className="main">
       <Header/>
       {
-        {
+        {          
+          'diary':
+          <>
+            <Diaries schedule={schedule}/>
+          </>,
           'schedule': 
           <>
             <Calendar schedule={schedule} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
@@ -114,10 +122,12 @@ function Main(props : MainProps) {
           <>
             <_StampBoard stampBoard={stampBoard} setStampBoard={setStampBoard}/>
           </>
+
         }[mainPageState]
       }
       
       <Menu mainPageState={mainPageState} setMainPageState={setMainPageState} signOut={()=>props.auth.signOut()}/>
+      <AlertModal enabled={!(isScheduleLoaded && isStampBoardLoaded)}>일정 불러오는중...</AlertModal>
     </div>
   )
 }

@@ -13,6 +13,7 @@
   padding:20px;
   user-select: none;
   width: 100%;
+  cursor: pointer;
 }
 .stampGoal.selected{
   color: #eee;

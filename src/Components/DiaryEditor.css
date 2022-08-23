@@ -65,6 +65,16 @@
   height: 32px;
   padding: 6px;  
   color: #777;
+  cursor: pointer;
+}
+
+svg:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: -100%;
+  left: 0;
+  font-size: 16px;
+  color: hotpink;
 }
 
 .diaryEditor__toolbar svg:hover{
@@ -153,6 +163,17 @@ pre{
   background: #eee;
 }
 .diaryPreview a{
-  color: fuchsia;
-  text-decoration: underline;
+  color: #0969da;    
+}
+
+.diaryPreview a:hover{
+  color: #0969da;
+  text-decoration: underline; 
+}
+
+.diaryPreview img{
+  max-width: 100%;
+  height: fit-content;
+  margin: 5px;
+  display: inline-block;
 }

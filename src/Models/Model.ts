@@ -17,6 +17,12 @@ export interface Todo{
   timer:string|null,
 }
 
+export interface Diary{
+  date:string
+  title:string|null
+  value:string
+}
+
 export const getUncompletedTodoCount=(todos:Array<Todo>)=>{
   if(todos?.length>0){
     return todos.reduce((count, cur)=>{

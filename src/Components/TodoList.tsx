@@ -20,6 +20,7 @@ function TodoList(props:TodoListProps) {
 
   const [selectedSchedule, setSelectedSchedule] = useState<DailyTodos>(null);
   const [todoClipboard, setTodoClipboard] = useState<Todo>(null);
+  const [todosClipboard, setTodosClipboard] = useState<Array<Todo>>(null);
   const [toggleScheduleMenu, setToggleScheduleMenu] = useState<boolean>(false);
 
   const onCompletedCheck=(value:boolean, i:number)=>{
@@ -158,15 +159,39 @@ function TodoList(props:TodoListProps) {
           date: dateToMove.format("YYYY년 M월 D일"),
           todos: [todoCopy]
         })
-      }
-
-      console.log(newSchedule);
+      }      
       props.setSchedule(newSchedule);
-    }    
-
-
+    }
     setSelectedSchedule(newSelectedSchedule);
+  }
 
+  const copyTodos=()=>{
+    if(selectedSchedule) setTodosClipboard([...selectedSchedule.todos]);
+  }
+
+  const pasteTodos=()=>{
+    if(!todosClipboard) return;
+    if(todosClipboard.length < 1) return;
+
+    if(!selectedSchedule){
+      const newSelectedSchedule:DailyTodos = {
+        date:props.selectedDate.format("YYYY년 M월 D일"),
+        todos:[...todosClipboard]
+      }
+      setSelectedSchedule(newSelectedSchedule);
+    }
+    else{
+      const newSelectedSchedule = {...selectedSchedule};
+      if(newSelectedSchedule.todos?.length>0){
+        todosClipboard.forEach(todo=>{
+          newSelectedSchedule.todos.push({...todo});
+        })        
+      }
+      else{
+        newSelectedSchedule.todos = [...todosClipboard]
+      }
+      setSelectedSchedule(newSelectedSchedule);
+    }
   }
 
   useEffect(()=>{
@@ -215,6 +240,8 @@ function TodoList(props:TodoListProps) {
         toggleMenu={toggleScheduleMenu}
         diary={selectedSchedule?.diary} 
         deleteDiary={()=>{onDiaryChange(null)}}
+        copyTodos={copyTodos}
+        pasteTodos={pasteTodos}
         onDiaryChange={onDiaryChange}/>
       </Box>
       {

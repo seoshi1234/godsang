@@ -33,7 +33,6 @@ import { BsCode, BsCodeSlash, BsFileCode } from 'react-icons/bs';
 import AlertModal from './AlertModal';
 import { getAuth } from 'firebase/auth';
 import { bitlyToken } from '../firebaseConfig';
-import axios from 'axios';
 
 
 interface DiaryEditorProps{
@@ -62,7 +61,8 @@ function DiaryEditor(props:DiaryEditorProps) {
   const [htmlText,setHtmlText] = useState<string>('');
 
   useEffect(()=>{
-    setHtmlText(converter.makeHtml(props.diary));
+    const diaryEditorText = props.diary?.replace(/<\/?p[^>]*>/g, '');
+    setHtmlText(converter.makeHtml(diaryEditorText));
     
   },[props.diary])
 
@@ -71,7 +71,7 @@ function DiaryEditor(props:DiaryEditorProps) {
       if(el.classList?.length>0){
         hljs.highlightElement(el as HTMLElement);
       }
-    });
+    });    
   },[htmlText])
 
   const insertAtDiary = (myValue:string, selectOptions?:SelectOption)=>insertAtCursor(editorRef.current, props.onDiaryChange, myValue, selectOptions);
@@ -83,6 +83,7 @@ function DiaryEditor(props:DiaryEditorProps) {
     await uploadBytes(fileNameRef, file);
     const url = await getDownloadURL(fileNameRef);
     
+    ///shorten url
     const response = await fetch('https://api-ssl.bitly.com/v4/shorten', {      
       method: 'POST',
       headers: {
@@ -109,8 +110,6 @@ function DiaryEditor(props:DiaryEditorProps) {
     for(let i = 0; i < files.length; i++){
       filesArray.push(files[i]);
     }
-
-    console.log(filesArray)
     
     await Promise.all(filesArray.map((file)=>{
       return uploadImage(file);
@@ -126,26 +125,28 @@ function DiaryEditor(props:DiaryEditorProps) {
     <div className="diaryEditor">
 
       <div className="diaryEditor__toolbar">
-        <MdTitle onClick={()=>insertAtDiary('# 제목', {start:2, end:0})}/>
-        <MdFormatBold onClick={()=>insertAtDiary('**텍스트**', {start:2, end:2})}/>
-        <MdFormatItalic onClick={()=>insertAtDiary('*텍스트*', {start:1, end:1})}/>
-        <MdFormatUnderlined onClick={()=>insertAtDiary('__텍스트__', {start:2, end:2})}/>
-        <MdFormatStrikethrough onClick={()=>insertAtDiary('~~텍스트~~', {start:2, end:2})}/>
-        <FaListUl onClick={()=>insertAtDiary('* ')}/>
-        <FaListOl onClick={()=>insertAtDiary('1. ')}/>
-        <MdFormatQuote onClick={()=>insertAtDiary('> ')}/>
-        <MdHorizontalRule onClick={()=>insertAtDiary('\n\n---')}/>
-        <BsCode strokeWidth={'.4px'} onClick={()=>insertAtDiary('\`single line code\`', {start:1,end:1})}/>
-        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:19, end:4})}/>
-        <ImTable onClick={()=>insertAtDiary('| Head | Head |\n| --- | --- |\n| Data | Data |\n| Data | Data |')}/>
-        <MdImage onClick={()=>fileInputRef.current.click()}/>
-        <MdLink onClick={()=>insertAtDiary('\n[link-name](link-url)', {start:13, end:1})}/>
+        <MdTitle onClick={()=>insertAtDiary('# 제목', {start:2, end:0})} title='제목'/>
+        <MdFormatBold onClick={()=>insertAtDiary('**텍스트**', {start:2, end:2})} title='Bold'/>
+        <MdFormatItalic onClick={()=>insertAtDiary('*텍스트*', {start:1, end:1})} title='Italic'/>
+        <MdFormatUnderlined onClick={()=>insertAtDiary('__텍스트__', {start:2, end:2})} title='밑줄'/>
+        <MdFormatStrikethrough onClick={()=>insertAtDiary('~~텍스트~~', {start:2, end:2})} title='취소선'/>
+        <FaListUl onClick={()=>insertAtDiary('* ')} title='Unordered List'/>
+        <FaListOl onClick={()=>insertAtDiary('1. ')} title='Ordered List'/>
+        <MdFormatQuote onClick={()=>insertAtDiary('> ')} title='인용'/>
+        <MdHorizontalRule onClick={()=>insertAtDiary('\n\n---')} title='가로선'/>
+        <BsCode strokeWidth={'.4px'} onClick={()=>insertAtDiary('\`single line code\`', {start:1,end:1})} title='인라인 코드'/>
+        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:19, end:4})} title='소스코드'/>
+        <ImTable onClick={()=>insertAtDiary('| Head | Head |\n| --- | --- |\n| Data | Data |\n| Data | Data |')} title='차트'/>
+        <MdImage onClick={()=>fileInputRef.current.click()} title='이미지'/>
+        <MdLink onClick={()=>insertAtDiary('\n[link-name](link-url)', {start:13, end:1})} title='하이퍼링크'/>
         <input ref={fileInputRef} type="file" name="file" id='image-upload' onChange={(e)=>handleFileInput(e)} accept="image/*" style={{display:'none'}} multiple/>
       </div>
+      
       <div className="diaryEditor__headers">
         <Heading as={'h3'}>마크다운 에디터</Heading>
         <Heading as={'h3'}>뷰어</Heading>
       </div>
+
       <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
       <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:htmlText}}>
         
