@@ -25,9 +25,11 @@ import {
 import LandingPage from './Pages/LandingPage';
 import Main from './Pages/Main';
 import { validateEmail, verifyPassword } from './Functions';
-
+import { useEventListener } from './Hooks';
+import {useCheckMobile} from './Stores'
 
 function App() {
+
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
@@ -93,9 +95,6 @@ function App() {
     });    
     onSignInClose();
   }
-  
-  
-  
 
   useEffect(()=>{
     
@@ -109,7 +108,7 @@ function App() {
     })
   },[user]);
 
-
+  useEventListener('resize',useCheckMobile(state=>state.checkIsMobile))
 
   return (
     <div className="App">

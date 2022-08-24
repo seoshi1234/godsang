@@ -1,7 +1,5 @@
 .todoList{
   margin: 60px;
-  
-  
   height: 500px;
   float: left;
 }
@@ -29,6 +27,19 @@
 
 .todoList__todo span{
   border-color: var(--chakra-colors-facebook-500);
-  
+}
+
+@media screen and (max-width:720px) {
+  .todoList__todo{
+    display: flex;
+    position: static;
+    align-items: center;  
+    width: 50%;
+  }
+  .todoList{
+    margin: 20px;
+    height: auto;
+    float: left;
+  }
 }
 

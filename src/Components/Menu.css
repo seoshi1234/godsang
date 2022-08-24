@@ -5,6 +5,7 @@
   padding-left: 30px;
   padding-bottom: 30px;
   pointer-events: none;
+  z-index: 2;
 }
 
 .menu button{

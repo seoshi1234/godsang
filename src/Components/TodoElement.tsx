@@ -8,15 +8,16 @@ import moment from 'moment'
 
 interface TodoProps{
   idx:number,
-  todo:Todo,  
+  todo:Todo,    
   onCompletedCheck,
   onNameChange,
   onTimerChange,
   deleteTimer,
+  insertTodo,
   copyTodo,
   pasteTodo,
   deleteTodo,
-  moveTodo
+  moveTodo,
 }
 
 function TodoElement(props:TodoProps) {
@@ -29,6 +30,11 @@ function TodoElement(props:TodoProps) {
     
     if(event.key==="Delete"){
       props.deleteTodo(props.idx);
+    }
+
+    if(event.key==="Enter"){
+      props.insertTodo(props.idx);
+
     }
   }
 
@@ -48,9 +54,9 @@ function TodoElement(props:TodoProps) {
       <Box className="todoList__todo" mb={3} onKeyDown={handleKeyDown}>
       
         <Checkbox isChecked={props.todo.completed} onChange={(e)=>props.onCompletedCheck(e.target.checked,props.idx)} size={'lg'} colorScheme='facebook' mr={3}/>
-        <Input onCopy={handleCopy} onPaste={handlePaste} mr={3} value={props.todo.name} onChange={(e)=>props.onNameChange(e.target.value,props.idx)} size={'sm'} colorScheme='facebook'/>
+        <Input type={'text'} onCopy={handleCopy} onPaste={handlePaste} mr={3} value={props.todo.name} onChange={(e)=>props.onNameChange(e.target.value,props.idx)} size={'sm'} colorScheme='facebook'/>
         <Button id='openTodoMenu' onClick={()=>setToggleMenu(!toggleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
-        <TodoMenu
+        <TodoMenu        
         idx={props.idx}
         timer={props.todo.timer}
         onTimerChange={props.onTimerChange}

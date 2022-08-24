@@ -111,7 +111,9 @@ function Main(props : MainProps) {
 
   return (
     <div className="main">
+
       <Header/>
+      <div className="main__contents">
       {
         {          
           'diary':
@@ -130,6 +132,7 @@ function Main(props : MainProps) {
 
         }[mainPageState]
       }
+      </div>
       
       <Menu mainPageState={mainPageState} setMainPageState={setMainPageState} signOut={()=>props.auth.signOut()}/>
       <AlertModal enabled={!(isScheduleLoaded && isStampBoardLoaded)}>일정 불러오는중...</AlertModal>

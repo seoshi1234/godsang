@@ -9,7 +9,7 @@
   transform: translateY(-10%) scale(.9);
   pointer-events: none;
   transition: all .1s 0s ease-in-out;
-  
+  z-index: 5;
 }
 
 .scheduleMenu.opened{
@@ -33,3 +33,32 @@
   border-bottom-right-radius: 10px;
 }
 
+@media screen and (max-width:720px) {
+  .scheduleMenu{
+    position: fixed;
+    top:unset;
+    left:0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;    
+    align-content: flex-end;
+    background-color: rgba(0, 0, 0, .5);
+    transform: translateY(0) scale(1);
+  }
+
+  .scheduleMenu.opened Button{
+    transform: translateY(0) scale(1);
+  }
+  
+  .scheduleMenu Button{
+    width: 70%;
+    margin: 0 auto;
+    transform: translateY(300%);
+  }
+
+  .scheduleMenu Button:last-child{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  
+}

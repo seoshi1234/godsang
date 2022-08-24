@@ -72,3 +72,10 @@
   transform: translateY(0) scale(1);
 }
 
+@media screen and (max-width:720px) {
+  .hoverIconEffect{
+    opacity: 1;
+    max-width: 40px;
+    transform: scaleX(1);
+  }
+}

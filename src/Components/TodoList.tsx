@@ -1,13 +1,13 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { BsThreeDots } from 'react-icons/bs';
-import { Heading, Box, Checkbox, Input, StyleObjectOrFn, Button } from '@chakra-ui/react';
+import { Heading, Box, Button } from '@chakra-ui/react';
 import moment from 'moment'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { DailyTodos, Schedule, Todo } from '../Models/Model'
 import TodoElement from './TodoElement';
 import './TodoList.css';
 import ScheduleMenu from './ScheduleMenu';
-import {useDebouncedEffect} from '../Hooks'
+import {useDebouncedEffect, useEventListener} from '../Hooks'
 
 interface TodoListProps{
   isScheduleLoaded:boolean,
@@ -18,10 +18,19 @@ interface TodoListProps{
 
 function TodoList(props:TodoListProps) {
 
+  const todoElementsRef = useRef<HTMLDivElement>(null);
+
+  const [focusIdx, setFocusIdx] = useState<number>(0);
   const [selectedSchedule, setSelectedSchedule] = useState<DailyTodos>(null);
   const [todoClipboard, setTodoClipboard] = useState<Todo>(null);
   const [todosClipboard, setTodosClipboard] = useState<Array<Todo>>(null);
   const [toggleScheduleMenu, setToggleScheduleMenu] = useState<boolean>(false);
+
+  const [isMobile,setIsMobile] = useState<boolean>(matchMedia("screen and (max-width:720px)").matches);
+  console.log(isMobile)
+  useEventListener("resize", ()=>{
+    setIsMobile(matchMedia("screen and (max-width:720px)").matches);
+  })
 
   const onCompletedCheck=(value:boolean, i:number)=>{
     const newSelectedSchedule = {...selectedSchedule};
@@ -94,6 +103,18 @@ function TodoList(props:TodoListProps) {
       }
       setSelectedSchedule(newSelectedSchedule);
     }
+    setFocusIdx(selectedSchedule.todos.length);
+  }
+
+  const insertTodo = (idx:number)=>{
+    const newSelectedSchedule = {...selectedSchedule};
+    newSelectedSchedule.todos.splice(idx+1,0,{
+      completed:false,
+      name:'',
+      timer:null          
+    });
+    setSelectedSchedule(newSelectedSchedule);
+    setFocusIdx(idx+1);
   }
 
   const copyTodo = (idx:number)=>{
@@ -105,12 +126,14 @@ function TodoList(props:TodoListProps) {
     const newSelectedSchedule = {...selectedSchedule};
     newSelectedSchedule.todos.splice(idx+1,0,todoClipboard);
     setSelectedSchedule(newSelectedSchedule);
+    setFocusIdx(idx+1);
   }
 
   const deleteTodo = (idx:number)=>{
     const newSelectedSchedule = {...selectedSchedule};
     newSelectedSchedule.todos.splice(idx,1);
     setSelectedSchedule(newSelectedSchedule);
+    setFocusIdx(idx);
   }
 
   const moveTodo = (idx:number, direction:(string & {})
@@ -127,17 +150,21 @@ function TodoList(props:TodoListProps) {
         idx --;
         if(idx < 0) idx = 0;
         newSelectedSchedule.todos.splice(idx, 0, todoCopy);
+        setFocusIdx(idx);
         break;
       case 'down':
         idx ++;
         if(idx >= newSelectedSchedule.todos.length) idx = newSelectedSchedule.todos.length;
         newSelectedSchedule.todos.splice(idx, 0, todoCopy);
+        setFocusIdx(idx);
         break;
       case 'back':
-        dateToMove.subtract(1,'days')
+        dateToMove.subtract(1,'days');
+        setFocusIdx(0);
         break;
       case 'forward':        
-        dateToMove.add(1,'days')            
+        dateToMove.add(1,'days');
+        setFocusIdx(0);
         break;
     }
     
@@ -162,7 +189,7 @@ function TodoList(props:TodoListProps) {
       }      
       props.setSchedule(newSchedule);
     }
-    setSelectedSchedule(newSelectedSchedule);
+    setSelectedSchedule(newSelectedSchedule);    
   }
 
   const copyTodos=()=>{
@@ -223,15 +250,22 @@ function TodoList(props:TodoListProps) {
       }
 
       props.setSchedule(newSchedule);
+
+      if(selectedSchedule?.todos?.length > 0){
+
+        if(focusIdx < selectedSchedule.todos.length && focusIdx >= 0){
+          const todoElements = todoElementsRef.current.querySelectorAll('.todoList__todo');
+          (todoElements[focusIdx].querySelector('input[type="text"]') as HTMLInputElement).focus();
+        }
+      }
     }
-
-
 
   },[selectedSchedule])
 
 
   return (
     <Box className="todoList" width={'container.sm'}>
+      
       <Box className='todoList__header' mb={5}>
         <Heading as={'h2'} fontSize='3xl'>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
         <Button onClick={()=>setToggleScheduleMenu(!toggleScheduleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
@@ -242,8 +276,11 @@ function TodoList(props:TodoListProps) {
         deleteDiary={()=>{onDiaryChange(null)}}
         copyTodos={copyTodos}
         pasteTodos={pasteTodos}
-        onDiaryChange={onDiaryChange}/>
+        onDiaryChange={onDiaryChange}
+        setFocusIdx={setFocusIdx}/>
       </Box>
+
+      <div className="todoList__elements" ref={todoElementsRef}>
       {
         selectedSchedule&&
         selectedSchedule.todos?.map((todo,i)=>{
@@ -251,11 +288,12 @@ function TodoList(props:TodoListProps) {
             borderColor:'var(--chakra-colors-facebook-500)',            
           }
           return(            
-            <TodoElement key={i} idx={i} todo={todo}             
+            <TodoElement key={i} idx={i} todo={todo}            
             onCompletedCheck={onCompletedCheck} 
             onNameChange={onNameChange}
             onTimerChange={onTimerChange}
             deleteTimer={deleteTimer}
+            insertTodo={insertTodo}
             copyTodo={copyTodo}
             pasteTodo={pasteTodo}
             deleteTodo={deleteTodo}
@@ -265,7 +303,8 @@ function TodoList(props:TodoListProps) {
           );
         })
       }
-      
+      </div>
+
       <Button width={'50%'} onClick={addTodo}><AddIcon/>&nbsp;&nbsp;할일 추가하기</Button>
 
     </Box>

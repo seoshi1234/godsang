@@ -11,6 +11,7 @@ interface ButtonWithIconProps{
   children
   onClick?:React.MouseEventHandler<HTMLButtonElement>
   id?:string
+  ref?:React.MutableRefObject<any>  
 }
 
 function ButtonWithIcon(props:ButtonWithIconProps) {
@@ -19,6 +20,7 @@ function ButtonWithIcon(props:ButtonWithIconProps) {
 
   return (
     <Button
+    ref={props.ref}
     className={props.className||''}
     id={props.id}
     onClick={props?.onClick}

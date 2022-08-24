@@ -32,7 +32,7 @@
 }
 
 .diaryViewer.enabled .diaryPreview{
-  height: 70vh;  
+  height: 80vh;  
 }
 
 .diaryViewer .diaryPreview::-webkit-scrollbar-thumb {

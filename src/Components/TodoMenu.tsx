@@ -14,11 +14,12 @@ ModalCloseButton,
 Input,
 } from '@chakra-ui/react'
 import './TodoMenu.css'
-import { useClickOutside } from '../Hooks'
+import { useClickOutside, useEventListener } from '../Hooks'
 import ButtonWithIcon from './ButtonWithIcon'
 import { ArrowDownIcon, CopyIcon, DeleteIcon, TimeIcon } from '@chakra-ui/icons'
 import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
 import TodoMoveMenu from './TodoMoveMenu'
+import { useCheckMobile } from '../Stores'
 
 
 interface TodoMenuProps{
@@ -26,38 +27,47 @@ interface TodoMenuProps{
   timer:string|null
   onTimerChange
   deleteTimer
-  toggleMenu:boolean
+  toggleMenu:boolean  
   closeMenu:()=>void
   copyTodo
   pasteTodo
   deleteTodo
   moveTodo
-  
 }
 
 function TodoMenu(props:TodoMenuProps) {
 
+  const isMobile = useCheckMobile(state=>state.isMobile);
+
   const [moveMenuToggle,setMoveMenuToggle] = useState<boolean>(false);
-
+  const { isOpen:isTimerModalOpen, onOpen:onTimerModalOpen, onClose:onTimerModalClose } = useDisclosure()
+  
   const wrapperRef = useRef(null);
-
+  const moveBtnRef = useRef(null);
+  
   useClickOutside(()=>{
     props.closeMenu();
   },wrapperRef)
 
-  const { isOpen:isTimerModalOpen, onOpen:onTimerModalOpen, onClose:onTimerModalClose } = useDisclosure()
 
   useEffect(()=>{
     if(!props.toggleMenu) setMoveMenuToggle(false);
   },[props.toggleMenu])
 
   return (
-    <Box ref={wrapperRef} className={`todoMenu ${props.toggleMenu && 'opened'}`}>
+    <Box 
+    onClick={(e)=>{
+      console.log(isMobile)
+      if(!isMobile) return;      
+      if((e.target as HTMLElement).id === 'openMoveMenu') return;
+      props.closeMenu();
+    }} 
+    ref={wrapperRef} className={`todoMenu ${props.toggleMenu && 'opened'}`}>
       
       <ButtonWithIcon onClick={onTimerModalOpen} colorScheme={'gray'} icon={<TimeIcon/>}>타이머설정</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.copyTodo(props.idx)} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.pasteTodo(props.idx)} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
-      <ButtonWithIcon id='openMoveMenu' onClick={()=>setMoveMenuToggle(true)} colorScheme={'gray'} icon={<BsArrowsMove/>}>이동하기
+      <ButtonWithIcon ref={moveBtnRef} id='openMoveMenu' onClick={()=>setMoveMenuToggle(true)} colorScheme={'gray'} icon={<BsArrowsMove/>}>이동하기
       <TodoMoveMenu moveTodo={props.moveTodo} toggleMenu={moveMenuToggle} closeMenu={()=>setMoveMenuToggle(false)}/></ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.deleteTodo(props.idx)} colorScheme={'red'} icon={<DeleteIcon/>}>삭제하기</ButtonWithIcon>
             
