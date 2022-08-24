@@ -33,6 +33,14 @@
   border-bottom-right-radius: 10px;
 }
 
+#openMoveMenu{
+  width:100%;
+}
+
+#openMoveMenu>Button{
+  border-radius: 0;
+}
+
 @media screen and (max-width:720px) {
   .todoMenu{
     position: fixed;
@@ -61,9 +69,19 @@
     border-bottom-right-radius: 0px;
   }
 
-  .todoMenu .todoMenu{
-    left: -15vw;
+  #openMoveMenu .todoMenu{
+    
     background-color: transparent;
   }
+
+  #openMoveMenu .todoMenu button{
+    
+    transform: translateY(-100%);
+  }
+
+  #openMoveMenu{
+    width:70vw;
+    margin: 0 auto;
+  }  
   
 }

@@ -43,7 +43,7 @@ function TodoMenu(props:TodoMenuProps) {
   const { isOpen:isTimerModalOpen, onOpen:onTimerModalOpen, onClose:onTimerModalClose } = useDisclosure()
   
   const wrapperRef = useRef(null);
-  const moveBtnRef = useRef(null);
+  
   
   useClickOutside(()=>{
     props.closeMenu();
@@ -67,10 +67,14 @@ function TodoMenu(props:TodoMenuProps) {
       <ButtonWithIcon onClick={onTimerModalOpen} colorScheme={'gray'} icon={<TimeIcon/>}>타이머설정</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.copyTodo(props.idx)} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
       <ButtonWithIcon onClick={()=>props.pasteTodo(props.idx)} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
-      <ButtonWithIcon ref={moveBtnRef} id='openMoveMenu' onClick={()=>setMoveMenuToggle(true)} colorScheme={'gray'} icon={<BsArrowsMove/>}>이동하기
-      <TodoMoveMenu moveTodo={props.moveTodo} toggleMenu={moveMenuToggle} closeMenu={()=>setMoveMenuToggle(false)}/></ButtonWithIcon>
+      <div id="openMoveMenu" onClick={(e)=>{e.stopPropagation(); setMoveMenuToggle(true)}}>
+        <ButtonWithIcon id='openMoveMenu' colorScheme={'gray'} icon={<BsArrowsMove/>}>
+          이동하기
+        </ButtonWithIcon>
+        <TodoMoveMenu moveTodo={props.moveTodo} toggleMenu={moveMenuToggle} closeMenu={()=>setMoveMenuToggle(false)}/>
+
+      </div>
       <ButtonWithIcon onClick={()=>props.deleteTodo(props.idx)} colorScheme={'red'} icon={<DeleteIcon/>}>삭제하기</ButtonWithIcon>
-            
 
       <Modal isOpen={isTimerModalOpen} onClose={onTimerModalClose}>
         <ModalOverlay />

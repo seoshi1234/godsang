@@ -267,7 +267,7 @@ function TodoList(props:TodoListProps) {
     <Box className="todoList" width={'container.sm'}>
       
       <Box className='todoList__header' mb={5}>
-        <Heading as={'h2'} fontSize='3xl'>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
+        <Heading as={'h2'} fontSize='2xl'>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
         <Button onClick={()=>setToggleScheduleMenu(!toggleScheduleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
         <ScheduleMenu 
         closeMenu={()=>setToggleScheduleMenu(false)} 

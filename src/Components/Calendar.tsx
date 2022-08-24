@@ -20,6 +20,7 @@ import {
 import { ChevronUpIcon,ChevronDownIcon, CheckIcon } from '@chakra-ui/icons';
 import { CSSObject } from '@emotion/react';
 import { getUncompletedTodoCount, Schedule } from '../Models/Model';
+import { useCheckMobile } from '../Stores';
 
 interface CalendarProps{
   schedule:Schedule,
@@ -31,7 +32,8 @@ interface CalendarProps{
 
 function Calendar(props:CalendarProps) {
 
-  const weekdayshort:string[] = moment.weekdaysShort();
+  const isMobile = useCheckMobile(state=>state.isMobile);
+  const weekdayshort:string[] = isMobile ? moment.weekdaysMin() : moment.weekdaysShort();  
   const [dateObject,setDateObject] = useState<moment.Moment>(props.selectedDate.clone())
 
   const increaseMonth = ()=>{

@@ -28,7 +28,7 @@
 }
 
 .diaryPreview>*{
-  margin-bottom: 5px !important;
+  margin-bottom: 5px;
 }
 
 .diaryEditor__headers{
@@ -81,32 +81,34 @@ svg:hover::after {
   color: #222;
 }
 
-.diaryPreview h1, h2, h3, h4, h5, h6{
-  font-weight: bold !important;
-}
-
 .diaryPreview h1{  
-  font-size: xx-large !important;
+  font-size: xx-large;
+  font-weight: bold;
 }
 
 .diaryPreview h2{
-  font-size: x-large !important;
+  font-size: x-large;
+  font-weight: bold;
 }
 
 .diaryPreview h3{
-  font-size: larger !important;
+  font-size: larger;
+  font-weight: bold;
 }
 
 .diaryPreview h4{
-  font-size: large !important;
+  font-size: large;
+  font-weight: bold;
 }
 
 .diaryPreview h5{
-  font-size: medium !important;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .diaryPreview h6{
-  font-size: small !important;
+  font-size: small;
+  font-weight: bold;
 }
 
 .diaryPreview ul,ol {
@@ -127,9 +129,9 @@ blockquote {
 }
 
 .diaryPreview hr{
-  margin-top: 13px !important;
-  height: 5px !important;
-  border-top-width: 3px !important;
+  margin-top: 13px;
+  height: 5px;
+  border-top-width: 3px;
 }
 
 .diaryPreview code:not(.hljs){

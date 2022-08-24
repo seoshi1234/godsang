@@ -29,3 +29,25 @@
   position: absolute;  
   right:0;
 }
+
+@media screen and (max-width:720px) {
+  .calendar h2{
+    font-size: var(--chakra-fontSizes-xl);
+  }
+
+  .calendar__week-day{
+    font-size: 12px;
+    padding: 4px;
+    text-align: center;
+  }
+
+  .calendar table td button{
+    font-size: 14px;
+    
+  }
+
+  .calendar__navigationBtns button{
+    padding: 2px;
+    font-size: larger;
+  }
+}
