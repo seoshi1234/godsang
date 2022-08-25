@@ -20,17 +20,11 @@ function TodoList(props:TodoListProps) {
 
   const todoElementsRef = useRef<HTMLDivElement>(null);
 
-  const [focusIdx, setFocusIdx] = useState<number>(0);
+  const [focusIdx, setFocusIdx] = useState<number>(-1);
   const [selectedSchedule, setSelectedSchedule] = useState<DailyTodos>(null);
   const [todoClipboard, setTodoClipboard] = useState<Todo>(null);
   const [todosClipboard, setTodosClipboard] = useState<Array<Todo>>(null);
   const [toggleScheduleMenu, setToggleScheduleMenu] = useState<boolean>(false);
-
-  const [isMobile,setIsMobile] = useState<boolean>(matchMedia("screen and (max-width:720px)").matches);
-  console.log(isMobile)
-  useEventListener("resize", ()=>{
-    setIsMobile(matchMedia("screen and (max-width:720px)").matches);
-  })
 
   const onCompletedCheck=(value:boolean, i:number)=>{
     const newSelectedSchedule = {...selectedSchedule};

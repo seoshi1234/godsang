@@ -129,7 +129,7 @@ function _StampBoard(props:StampBoardProps) {
           props.stampBoard.stampGoals.map((stampGoal,i)=>{
             return(
               <StampGoalElement 
-              key={i} 
+              key={i}
               handleGoalClick={handleGoalClick} 
               idx={i}
               onStampCountChange={onStampCountChange}

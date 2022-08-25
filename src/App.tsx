@@ -63,10 +63,10 @@ function App() {
     event.preventDefault();
     if(isSignUpError) return;
 
-    setSignInState('signingIn');
+    
     createUserWithEmailAndPassword(auth,email, password)    
     .then((authUser)=>{
-      
+      setSignInState('signingIn');
       const schedule = generateRandomSchedule(authUser.user.uid);
       const stampBoard = generateRandomStampBoard(authUser.user.uid);
       
@@ -90,9 +90,9 @@ function App() {
     event.preventDefault();
     if(isSignInError) return;
     
-    setSignInState('signingIn');
     signInWithEmailAndPassword(auth, email, password)
     .then(()=>{
+      setSignInState('signingIn');
       
     })
     .catch((error)=>{
