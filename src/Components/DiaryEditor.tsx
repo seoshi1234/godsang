@@ -33,6 +33,7 @@ import { BsCode, BsCodeSlash, BsFileCode } from 'react-icons/bs';
 import AlertModal from './AlertModal';
 import { getAuth } from 'firebase/auth';
 import { bitlyToken } from '../firebaseConfig';
+import { useCheckMobile } from '../Stores';
 
 
 interface DiaryEditorProps{
@@ -42,7 +43,7 @@ interface DiaryEditorProps{
 
 function DiaryEditor(props:DiaryEditorProps) {
 
-
+  const isMobile = useCheckMobile(state=>state.isMobile);
   const editorRef = useRef(null);
   const previewRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -134,22 +135,35 @@ function DiaryEditor(props:DiaryEditorProps) {
         <MdFormatQuote onClick={()=>insertAtDiary('> ')} title='인용'/>
         <MdHorizontalRule onClick={()=>insertAtDiary('\n\n---')} title='가로선'/>
         <BsCode strokeWidth={'.4px'} onClick={()=>insertAtDiary('\`single line code\`', {start:1,end:1})} title='인라인 코드'/>
-        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:19, end:4})} title='소스코드'/>
+        <BsCodeSlash strokeWidth={'.4px'} onClick={()=>insertAtDiary('\n\`\`\`language-name\nmultiple\nline\ncode\n\`\`\`', {start:18, end:4})} title='소스코드'/>
         <ImTable onClick={()=>insertAtDiary('| Head | Head |\n| --- | --- |\n| Data | Data |\n| Data | Data |')} title='차트'/>
         <MdImage onClick={()=>fileInputRef.current.click()} title='이미지'/>
         <MdLink onClick={()=>insertAtDiary('\n[link-name](link-url)', {start:13, end:1})} title='하이퍼링크'/>
         <input ref={fileInputRef} type="file" name="file" id='image-upload' onChange={(e)=>handleFileInput(e)} accept="image/*" style={{display:'none'}} multiple/>
       </div>
-      
-      <div className="diaryEditor__headers">
-        <Heading as={'h3'} size={'xl'}>마크다운 에디터</Heading>
-        <Heading as={'h3'} size={'xl'}>뷰어</Heading>
-      </div>
+      {
+        isMobile ? 
+        <>
+          <div className="diaryEditor__headers">
+            <Heading as={'h3'} size={'xl'}>마크다운 에디터</Heading>
+          </div>
+          <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
+          <div className="diaryEditor__headers">
+            <Heading as={'h3'} size={'xl'}>뷰어</Heading>
+          </div>
+          <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:htmlText}}></div>
+        </>
+        :
+        <>
+          <div className="diaryEditor__headers">
+            <Heading as={'h3'} size={'xl'}>마크다운 에디터</Heading>
+            <Heading as={'h3'} size={'xl'}>뷰어</Heading>
+          </div>
+          <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
+          <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:htmlText}}></div>
+        </>
 
-      <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
-      <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:htmlText}}>
-        
-      </div>
+      }      
 
       <AlertModal enabled={isUploading}>업로드 중입니다...</AlertModal>
     </div>

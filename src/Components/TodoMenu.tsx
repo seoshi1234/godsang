@@ -56,8 +56,7 @@ function TodoMenu(props:TodoMenuProps) {
 
   return (
     <Box 
-    onClick={(e)=>{
-      console.log(isMobile)
+    onClick={(e)=>{      
       if(!isMobile) return;      
       if((e.target as HTMLElement).id === 'openMoveMenu') return;
       props.closeMenu();

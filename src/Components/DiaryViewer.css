@@ -12,7 +12,7 @@
   pointer-events: none;  
   opacity: 0;
   z-index: 10;
-  transition: all .1s 0s ease-in-out;
+  transition: all .2s 0s ease-in-out;
 }
 
 .diaryViewer.enabled{
@@ -33,6 +33,7 @@
 
 .diaryViewer.enabled .diaryPreview{
   height: 80vh;  
+  width: 50vw;
 }
 
 .diaryViewer .diaryPreview::-webkit-scrollbar-thumb {
@@ -44,4 +45,12 @@
 
 .diaryViewer .diaryPreview::-webkit-scrollbar{
   width: 16px;
+}
+
+
+@media screen and (max-width:720px) {
+  .diaryViewer.enabled .diaryPreview{
+    height: 80vh;  
+    width: 100%;
+  }
 }

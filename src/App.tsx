@@ -27,6 +27,10 @@ import Main from './Pages/Main';
 import { validateEmail, verifyPassword } from './Functions';
 import { useEventListener } from './Hooks';
 import {useCheckMobile} from './Stores'
+import AlertModal from './Components/AlertModal';
+
+
+export type SignInState = 'signingIn' | 'signedIn' | 'failed' | 'default'
 
 function App() {
 
@@ -45,26 +49,27 @@ function App() {
   const [email,setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
   const [confirmPassword,setConfirmPassword] = useState<string>("");  
+  const [signInState, setSignInState] = useState<SignInState>('default');
   
   let isEmailError = validateEmail(email) == null;
   let isPasswordError = verifyPassword(password) !== '';
   let isConfirmPasswordError = password!==confirmPassword || confirmPassword === '';
   let isSignUpError = (isEmailError || isPasswordError || isConfirmPasswordError);
   let isSignInError = (isEmailError || isPasswordError);
+  
 
-
-
+  
   const signUp = (event)=>{
     event.preventDefault();
     if(isSignUpError) return;
 
-    createUserWithEmailAndPassword(auth,email, password)
-
+    setSignInState('signingIn');
+    createUserWithEmailAndPassword(auth,email, password)    
     .then((authUser)=>{
-
+      
       const schedule = generateRandomSchedule(authUser.user.uid);
       const stampBoard = generateRandomStampBoard(authUser.user.uid);
-
+      
       set(ref(db, 'users/' + authUser.user.uid),{schedule:schedule, stampBoard:stampBoard})
       .then()
       .catch((reason)=>console.log(reason));
@@ -80,14 +85,15 @@ function App() {
     
     onSignUpClose();
   }
-
+  
   const signIn = (event)=>{    
     event.preventDefault();
     if(isSignInError) return;
-
+    
+    setSignInState('signingIn');
     signInWithEmailAndPassword(auth, email, password)
     .then(()=>{
-      onSignInClose();          
+      
     })
     .catch((error)=>{
       alert(error.message);
@@ -97,15 +103,20 @@ function App() {
   }
 
   useEffect(()=>{
-    
     auth.onAuthStateChanged((authUser)=>{
+    
       if(authUser){
-        setUser(authUser);   
-        
+        if(!user)setSignInState('signingIn');
+        setUser(authUser);
       }else{
+        setSignInState('default');
         setUser(null);
       }
     })
+
+    if(user){
+      setSignInState('signedIn')
+    }
   },[user]);
 
   useEventListener('resize',useCheckMobile(state=>state.checkIsMobile))
@@ -157,6 +168,7 @@ function App() {
           </FormControl>            
         </ModalContent>
       </Modal>
+      
       <Modal isOpen={isSignInOpen} onClose={onSignInClose}>
         <ModalOverlay />
         <ModalContent>
@@ -189,7 +201,7 @@ function App() {
         </ModalContent>
       </Modal>
 
-      
+      <AlertModal enabled={signInState == 'signingIn'}>로그인 중입니다...</AlertModal>
     </div>
   );
 }
