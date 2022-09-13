@@ -28,12 +28,12 @@ import{
   ImTable
 } from 'react-icons/im'
 import showdown from 'showdown';
-import { insertAtCursor, SelectOption } from '../Functions';
+import { insertAtCursor, SelectOption } from '../../Functions';
 import { BsCode, BsCodeSlash, BsFileCode } from 'react-icons/bs';
-import AlertModal from './AlertModal';
+import AlertModal from '../AlertModal';
 import { getAuth } from 'firebase/auth';
-import { bitlyToken } from '../firebaseConfig';
-import { useCheckMobile } from '../Stores';
+import { bitlyToken } from '../../firebaseConfig';
+import { useCheckMobile } from '../../Stores';
 
 
 interface DiaryEditorProps{

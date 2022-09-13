@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 
-export const useClickOutside=(cb:()=>void,ref)=>{
+export const useClickOutside=(callback:()=>void,ref)=>{
   useEffect(() => {
 
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        cb();
+        callback();
       }
     }
     
@@ -32,18 +32,18 @@ export const useInterval=(callback:()=>void, delay:number)=>{
   return intervalRef;
 }
 
-export const useDebouncedEffect = (func:()=>void, delay:number, deps:React.DependencyList) => {
-  const callback = useCallback(func, deps);
+export const useDebouncedEffect = (callback:()=>void, delay:number, deps:React.DependencyList) => {
+  const cb = useCallback(callback, deps);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      callback();
+      cb();
     }, delay);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [callback, delay]);
+  }, [cb, delay]);
 };
 
 export const useEventListener=(eventName:string, handler, element = window)=>{

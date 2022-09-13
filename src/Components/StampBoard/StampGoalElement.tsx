@@ -12,7 +12,7 @@ import
   Button,
   IconButton,
 } from '@chakra-ui/react'
-import { StampGoal } from '../Models/Model'
+import { StampGoal } from '../../Models/Model'
 import { DeleteIcon } from '@chakra-ui/icons'
 
 interface StampGoalElementProps{

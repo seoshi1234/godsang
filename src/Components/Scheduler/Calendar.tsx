@@ -19,8 +19,8 @@ import {
 } from '@chakra-ui/react'
 import { ChevronUpIcon,ChevronDownIcon, CheckIcon } from '@chakra-ui/icons';
 import { CSSObject } from '@emotion/react';
-import { getUncompletedTodoCount, Schedule } from '../Models/Model';
-import { useCheckMobile } from '../Stores';
+import { getUncompletedTodoCount, Schedule } from '../../Models/Model';
+import { useCheckMobile } from '../../Stores';
 
 interface CalendarProps{
   schedule:Schedule,
@@ -167,7 +167,7 @@ function Calendar(props:CalendarProps) {
                           <br/>
                           {
                             currentSchedule && 
-                            currentSchedule.todos ?
+                            currentSchedule.todos?.length>0 ?
                             getUncompletedTodoCount(currentSchedule.todos)>0 ?
                             <Box >
                             &nbsp; • {getUncompletedTodoCount(currentSchedule.todos)}

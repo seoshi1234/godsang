@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Diary, Schedule } from '../Models/Model'
+import { Diary, Schedule } from '../../Models/Model'
 import DiaryViewer from './DiaryViewer';
 import showdown from 'showdown';
 import DiaryInfo from './DiaryInfo';

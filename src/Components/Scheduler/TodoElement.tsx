@@ -1,7 +1,7 @@
 import React,{useRef, useState} from 'react'
 import {Box,Button,Checkbox,Input} from '@chakra-ui/react'
 import {BsThreeDots} from "react-icons/bs";
-import { Todo } from '../Models/Model'
+import { Todo } from '../../Models/Model'
 import TodoMenu from './TodoMenu';
 import moment from 'moment'
 

@@ -40,9 +40,11 @@ export const insertAtCursor=(myField:HTMLTextAreaElement, onChange:(value:string
 
       const fullText = myField.value;
       myField.value = fullText.substring(0, finalPos);
+      //삽입한 줄로 스크롤하기
       myField.scrollTop = myField.scrollHeight;
       myField.value = fullText;
 
+      //마크다운 태그 삽입 후 가운데 텍스트 선택
       if(selectOptions){
         startPos = startPos + selectOptions.start;
         endPos = finalPos - selectOptions.end;
@@ -53,6 +55,5 @@ export const insertAtCursor=(myField:HTMLTextAreaElement, onChange:(value:string
   } else {
       myField.value += myValue;
   }
-
   onChange(myField.value);
 }

@@ -1,9 +1,9 @@
 import React,{useRef} from 'react'
-import {useClickOutside} from '../Hooks'
+import {useClickOutside} from '../../Hooks'
 import {
   Box
 } from '@chakra-ui/react'
-import ButtonWithIcon from './ButtonWithIcon'
+import ButtonWithIcon from '../ButtonWithIcon'
 import { ArrowBackIcon, ArrowDownIcon, ArrowForwardIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon } from '@chakra-ui/icons'
 
 interface TodoMoveMenuProps{

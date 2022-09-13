@@ -7,13 +7,13 @@ import './Main.css'
 import moment from 'moment';
 import { DailyTodos, Schedule, StampBoard } from '../Models/Model'
 import { Database, get, onValue, ref, set } from 'firebase/database'
-import Calendar from '../Components/Calendar'
-import TodoList from '../Components/TodoList'
-import { useInterval } from '../Hooks'
+import Calendar from '../Components/Scheduler/Calendar'
+import TodoList from '../Components/Scheduler/TodoList'
+import { useDebouncedEffect, useInterval } from '../Hooks'
 import {randomNotification} from '../Notification'
-import _StampBoard from '../Components/StampBoard'
+import _StampBoard from '../Components/StampBoard/StampBoard'
 import AlertModal from '../Components/AlertModal'
-import Diaries from '../Components/Diaries'
+import Diaries from '../Components/Diary/Diaries'
 
 
 interface MainProps{
@@ -41,7 +41,7 @@ function Main(props : MainProps) {
 
   const [timerInterval, setTimerInterval] = useState<number>(1000);  
 
-  useEffect(()=>{
+  useDebouncedEffect(()=>{
     if(schedule){
       if(isScheduleLoaded){
         set(ref(props.db, `users/${props.auth.currentUser.uid}/schedule`),schedule);
@@ -53,7 +53,7 @@ function Main(props : MainProps) {
       }))
     }
     
-  },[schedule])
+  },2000,[schedule])
 
   useEffect(()=>{
     if(stampBoard){

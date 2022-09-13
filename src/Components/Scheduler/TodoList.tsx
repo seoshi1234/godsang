@@ -3,11 +3,11 @@ import { BsThreeDots } from 'react-icons/bs';
 import { Heading, Box, Button } from '@chakra-ui/react';
 import moment from 'moment'
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
-import { DailyTodos, Schedule, Todo } from '../Models/Model'
+import { DailyTodos, Schedule, Todo } from '../../Models/Model'
 import TodoElement from './TodoElement';
 import './TodoList.css';
 import ScheduleMenu from './ScheduleMenu';
-import {useDebouncedEffect, useEventListener} from '../Hooks'
+import {useDebouncedEffect, useEventListener} from '../../Hooks'
 
 interface TodoListProps{
   isScheduleLoaded:boolean,

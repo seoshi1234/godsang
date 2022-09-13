@@ -14,12 +14,12 @@ ModalCloseButton,
 Input,
 } from '@chakra-ui/react'
 import './TodoMenu.css'
-import { useClickOutside, useEventListener } from '../Hooks'
-import ButtonWithIcon from './ButtonWithIcon'
+import { useClickOutside, useEventListener } from '../../Hooks'
+import ButtonWithIcon from '../ButtonWithIcon'
 import { ArrowDownIcon, CopyIcon, DeleteIcon, TimeIcon } from '@chakra-ui/icons'
 import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
 import TodoMoveMenu from './TodoMoveMenu'
-import { useCheckMobile } from '../Stores'
+import { useCheckMobile } from '../../Stores'
 
 
 interface TodoMenuProps{

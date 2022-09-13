@@ -15,11 +15,11 @@ Input,
 Textarea,
 } from '@chakra-ui/react'
 import './ScheduleMenu.css'
-import { useClickOutside } from '../Hooks'
-import ButtonWithIcon from './ButtonWithIcon'
+import { useClickOutside } from '../../Hooks'
+import ButtonWithIcon from '../ButtonWithIcon'
 import { ArrowDownIcon, CopyIcon, DeleteIcon, EditIcon, TimeIcon } from '@chakra-ui/icons'
 import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
-import DiaryEditor from './DiaryEditor'
+import DiaryEditor from '../Diary/DiaryEditor'
 
 
 interface ScheduleMenuProps{  

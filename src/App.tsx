@@ -63,7 +63,6 @@ function App() {
     event.preventDefault();
     if(isSignUpError) return;
 
-    
     createUserWithEmailAndPassword(auth,email, password)    
     .then((authUser)=>{
       setSignInState('signingIn');

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StampBoard, StampGoal} from '../Models/Model'
+import { StampBoard, StampGoal} from '../../Models/Model'
 import './StampBoard.css'
 
 import
