@@ -7,6 +7,7 @@ import moment from 'moment'
 
 
 interface TodoProps{
+  onFocus,
   idx:number,
   todo:Todo,    
   onCompletedCheck,
@@ -54,7 +55,9 @@ function TodoElement(props:TodoProps) {
       <Box className="todoList__todo" mb={3} onKeyDown={handleKeyDown}>
       
         <Checkbox isChecked={props.todo.completed} onChange={(e)=>props.onCompletedCheck(e.target.checked,props.idx)} size={'lg'} colorScheme='facebook' mr={3}/>
-        <Input type={'text'} onCopy={handleCopy} onPaste={handlePaste} mr={3} value={props.todo.name} onChange={(e)=>props.onNameChange(e.target.value,props.idx)} size={'sm'} colorScheme='facebook'/>
+        <Input type={'text'} onCopy={handleCopy} onPaste={handlePaste} mr={3} value={props.todo.name} 
+        onChange={(e)=>props.onNameChange(e.target.value,props.idx)} onFocus={props.onFocus}
+        size={'sm'} colorScheme='facebook'/>
         <Button id='openTodoMenu' onClick={()=>setToggleMenu(!toggleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
         <TodoMenu        
         idx={props.idx}

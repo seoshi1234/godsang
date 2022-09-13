@@ -217,7 +217,7 @@ function TodoList(props:TodoListProps) {
 
   useEffect(()=>{
 
-
+    console.log('asdf')
     const newSelectedSchedule = props.schedule?.dailySchedules.find((dailyTodo)=>{
       return dailyTodo.date === props.selectedDate.format("YYYY년 M월 D일");
     })
@@ -263,7 +263,7 @@ function TodoList(props:TodoListProps) {
       <Box className='todoList__header' mb={5}>
         <Heading as={'h2'} fontSize='2xl'>{props.selectedDate.format("MM/DD/YYYY 의 일정")}</Heading>
         <Button onClick={()=>setToggleScheduleMenu(!toggleScheduleMenu)} size={'sm'} bgColor={'white'}><BsThreeDots size={'lg'}/></Button>
-        <ScheduleMenu 
+        <ScheduleMenu         
         closeMenu={()=>setToggleScheduleMenu(false)} 
         toggleMenu={toggleScheduleMenu}
         diary={selectedSchedule?.diary} 
@@ -282,7 +282,8 @@ function TodoList(props:TodoListProps) {
             borderColor:'var(--chakra-colors-facebook-500)',            
           }
           return(            
-            <TodoElement key={i} idx={i} todo={todo}            
+            <TodoElement key={i} idx={i} todo={todo}
+            onFocus={()=>setFocusIdx(i)}
             onCompletedCheck={onCompletedCheck} 
             onNameChange={onNameChange}
             onTimerChange={onTimerChange}
