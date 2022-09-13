@@ -44,10 +44,12 @@ function Main(props : MainProps) {
   useDebouncedEffect(()=>{
     if(schedule){
       if(isScheduleLoaded){
+        //db에 수정된 일정 저장
         set(ref(props.db, `users/${props.auth.currentUser.uid}/schedule`),schedule);
       }else{
         setIsScheduleLoaded(true);
       }
+      
       setTodaySchedule(schedule.dailySchedules.find((dailySchedule)=>{
         return dailySchedule.date === moment().format('YYYY년 M월 D일');
       }))
@@ -68,9 +70,8 @@ function Main(props : MainProps) {
   },[stampBoard])
 
   useInterval(()=>{    
-
     if(todaySchedule){
-
+      
       setTimerInterval(1000);
 
       if(moment().format("M") !== today.format("M")) document.location.reload();
@@ -80,14 +81,12 @@ function Main(props : MainProps) {
 
       const activatedAlarms = todaySchedule.todos?.filter(todo=>{
         return todo.timer === currentTime;
-      })        
-
-      
+      })
 
       if(activatedAlarms?.length>0 && timerInterval===1000){
-        activatedAlarms.forEach(alarm=>{
+        activatedAlarms.forEach(alarm=>{          
           var notification = new Notification('일정 알림', {
-            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+            icon: './favicon.png',
             body: alarm.name,
           });          
         })

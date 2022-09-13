@@ -217,7 +217,6 @@ function TodoList(props:TodoListProps) {
 
   useEffect(()=>{
 
-    console.log('asdf')
     const newSelectedSchedule = props.schedule?.dailySchedules.find((dailyTodo)=>{
       return dailyTodo.date === props.selectedDate.format("YYYY년 M월 D일");
     })
