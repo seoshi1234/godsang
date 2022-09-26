@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, {Dispatch, SetStateAction, useState } from 'react'
 import './Calendar.css'
 import moment from 'moment'
 
@@ -7,19 +7,15 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
-  TableContainer,
   Button,
   Heading,
-  IconButton,  
 } from '@chakra-ui/react'
 import { ChevronUpIcon,ChevronDownIcon, CheckIcon } from '@chakra-ui/icons';
 import { CSSObject } from '@emotion/react';
-import { getUncompletedTodoCount, Schedule } from '../../Models/Model';
+import { getUncompletedTodoCount, Schedule } from '../../Models/ScheduleModel';
 import { useCheckMobile } from '../../Stores';
 
 interface CalendarProps{
@@ -61,7 +57,6 @@ function Calendar(props:CalendarProps) {
   }
   
   const firstDayOfMonth = ()=>moment(dateObject).startOf('month').format('d');
-  
   
   const weekdayshortname = weekdayshort.map(day=>{
     return (

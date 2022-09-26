@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import {useRef } from 'react'
 import 
 {
 Button,
@@ -11,23 +11,19 @@ ModalHeader,
 ModalFooter,
 ModalBody,
 ModalCloseButton,
-Input,
-Textarea,
 } from '@chakra-ui/react'
 import './ScheduleMenu.css'
 import { useClickOutside } from '../../Hooks'
 import ButtonWithIcon from '../ButtonWithIcon'
-import { ArrowDownIcon, CopyIcon, DeleteIcon, EditIcon, TimeIcon } from '@chakra-ui/icons'
-import { BsArrowReturnLeft, BsArrowsMove } from 'react-icons/bs'
+import { CopyIcon, EditIcon } from '@chakra-ui/icons'
+import { BsArrowReturnLeft } from 'react-icons/bs'
 import DiaryEditor from '../Diary/DiaryEditor'
+import { ScheduleController } from '../../Controllers/ScheduleController'
 
 
 interface ScheduleMenuProps{  
   diary:string|null
-  onDiaryChange
-  deleteDiary
-  copyTodos
-  pasteTodos
+  scheduleController:ScheduleController;
   toggleMenu:boolean
   closeMenu:()=>void
   setFocusIdx
@@ -57,8 +53,8 @@ function ScheduleMenu(props:ScheduleMenuProps) {
         onDiaryModalOpen();
         props.setFocusIdx(-1);
       }} colorScheme={'gray'} icon={<EditIcon/>}>일기작성</ButtonWithIcon>
-      <ButtonWithIcon onClick={props.copyTodos} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
-      <ButtonWithIcon onClick={props.pasteTodos} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
+      <ButtonWithIcon onClick={()=>props.scheduleController.copyTodos()} colorScheme={'gray'} icon={<CopyIcon/>}>복사하기</ButtonWithIcon>
+      <ButtonWithIcon onClick={()=>props.scheduleController.pasteTodos()} colorScheme={'gray'} icon={<BsArrowReturnLeft/>}>붙여넣기</ButtonWithIcon>
 
       <Modal isOpen={isDiaryModalOpen} onClose={onDiaryModalClose} size='full'>
         <ModalOverlay />
@@ -66,7 +62,7 @@ function ScheduleMenu(props:ScheduleMenuProps) {
           <ModalHeader fontSize={'3xl'}>일기 작성</ModalHeader>
           <ModalCloseButton />
           <ModalBody __css={{fontSize:'unset'}}>
-            <DiaryEditor diary={props.diary} onDiaryChange={props.onDiaryChange}/>
+            <DiaryEditor diary={props.diary} onDiaryChange={(value)=>props.scheduleController.onDiaryChange(value)}/>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='facebook' mr={3} onClick={onDiaryModalClose}>
@@ -74,7 +70,7 @@ function ScheduleMenu(props:ScheduleMenuProps) {
             </Button>
             <Button colorScheme='red' mr={3} onClick={()=>{
               onDiaryModalClose();
-              props.deleteDiary();           
+              props.scheduleController.onDiaryChange(null);
               }}>
               일기삭제
             </Button>

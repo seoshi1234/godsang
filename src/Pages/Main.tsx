@@ -5,7 +5,8 @@ import Header from '../Components/Header'
 import './Main.css'
 
 import moment from 'moment';
-import { DailyTodos, Schedule, StampBoard } from '../Models/Model'
+import { DailyTodos, Schedule } from '../Models/ScheduleModel'
+import { StampBoard } from '../Models/StampModel'
 import { Database, get, onValue, ref, set } from 'firebase/database'
 import Calendar from '../Components/Scheduler/Calendar'
 import TodoList from '../Components/Scheduler/TodoList'
@@ -103,9 +104,6 @@ function Main(props : MainProps) {
     });
 
     Notification.requestPermission();
-    
-    
-    
   },[])
 
   return (

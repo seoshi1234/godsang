@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StampBoard, StampGoal} from '../../Models/Model'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { StampBoard, StampGoal} from '../../Models/StampModel'
 import './StampBoard.css'
 
 import
@@ -17,10 +17,11 @@ import
 } from '@chakra-ui/react'
 import StampGoalElement from './StampGoalElement'
 import moment from 'moment'
+import { StampBoardController } from '../../Controllers/StampBoardController'
 
 interface StampBoardProps{
   stampBoard:StampBoard
-  setStampBoard
+  setStampBoard:Dispatch<SetStateAction<StampBoard>>
 }
 
 function _StampBoard(props:StampBoardProps) {
@@ -28,69 +29,8 @@ function _StampBoard(props:StampBoardProps) {
   const [selectedGoalIdx, setSelectedGoalIdx] = useState<number>(-1);
   const { isOpen:isAddGoalOpen, onOpen:onAddGoalOpen, onClose:onAddGoalClose } = useDisclosure()
 
-  const handleGoalClick=(idx)=>{    
-    setSelectedGoalIdx(idx===selectedGoalIdx ? -1 : idx);
-  }
-
-  const handleStampClick=(idx:number)=>{
-    let newStampBoard = {...props.stampBoard};
-
-    if(!props.stampBoard.stampGoals[selectedGoalIdx].stamps){
-      props.stampBoard.stampGoals[selectedGoalIdx].stamps=[{date:moment().format('M/D')}];
-    }
-
-    else if(idx >= props.stampBoard.stampGoals[selectedGoalIdx].stamps.length){
-      newStampBoard.stampGoals[selectedGoalIdx].stamps.push({date:moment().format('M/D')});
-    }
-    else{
-      newStampBoard.stampGoals[selectedGoalIdx].stamps.splice(idx,1);
-    }
-
-    props.setStampBoard(newStampBoard);
-  }
-
-  const onStampCountChange=(value:number, idx:number)=>{
-    let newStampBoard = {...props.stampBoard};
-    newStampBoard.stampGoals[idx].stampCount = value;
-    
-    props.setStampBoard(newStampBoard);
-  }
-
-  const onStampNameChange=(value:string, idx:number)=>{
-    let newStampBoard = {...props.stampBoard};
-    newStampBoard.stampGoals[idx].name = value;
-    
-    props.setStampBoard(newStampBoard);
-  }
-
-  const addStampGoal=()=>{
-    let newStampBoard = {...props.stampBoard};
-    if(newStampBoard.stampGoals){
-      newStampBoard.stampGoals.push({
-        name:'',
-        stampCount:18,
-        stamps:[]
-      });
-    }else{
-      newStampBoard.stampGoals=[{
-        name:'',
-        stampCount:18,
-        stamps:[]
-      }];
-    }
-
-    props.setStampBoard(newStampBoard);
-
-  }
-
-  const deleteStampGoal=(idx:number)=>{
-    setSelectedGoalIdx(-1);
-    let newStampBoard = {...props.stampBoard};
-    newStampBoard.stampGoals.splice(idx,1)
-
-    props.setStampBoard(newStampBoard);
-
-  }
+  const stampBoardController = useRef<StampBoardController>(new StampBoardController(props.setStampBoard, setSelectedGoalIdx));
+  
 
   const renderStampContainer=(stampGoal:StampGoal)=>{
     let stamps=[];
@@ -103,7 +43,7 @@ function _StampBoard(props:StampBoardProps) {
       </Box>;
 
       stamps.push(
-        <Box className='stamp' key={i} onClick={()=>handleStampClick(i)}>
+        <Box className='stamp' key={i} onClick={()=>stampBoardController.current.handleStampClick(i)}>
           {stampChild}
         </Box>
       )
@@ -130,17 +70,14 @@ function _StampBoard(props:StampBoardProps) {
             return(
               <StampGoalElement 
               key={i}
-              handleGoalClick={handleGoalClick} 
               idx={i}
-              onStampCountChange={onStampCountChange}
-              onStampNameChange={onStampNameChange}
-              deleteStampGoal={deleteStampGoal}
               selectedGoalIdx={selectedGoalIdx}
+              stampBoardController={stampBoardController.current}
               stampGoal={stampGoal}/>
             )
           })
         }
-        <Button className='stampGoal' onClick={addStampGoal}>루틴 추가하기</Button>
+        <Button className='stampGoal' onClick={()=>stampBoardController.current.addStampGoal()}>루틴 추가하기</Button>
       </Box>
       {
         selectedGoalIdx != -1 &&

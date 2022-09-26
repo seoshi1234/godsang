@@ -6,7 +6,8 @@ import { initializeApp } from 'firebase/app';
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "firebase/auth";
 import {getDatabase, set, ref, Database, get, push, update} from "firebase/database"
-import { Schedule, generateRandomSchedule, generateRandomStampBoard } from './Models/Model';
+import { Schedule, generateRandomSchedule} from './Models/ScheduleModel';
+import { generateRandomStampBoard } from './Models/StampModel';
 
 import {
   useDisclosure,
@@ -49,7 +50,6 @@ function App() {
   const [email,setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("");
   const [confirmPassword,setConfirmPassword] = useState<string>("");  
-  const [signInState, setSignInState] = useState<SignInState>('default');
   
   let isEmailError = validateEmail(email) == null;
   let isPasswordError = verifyPassword(password) !== '';
@@ -65,7 +65,6 @@ function App() {
 
     createUserWithEmailAndPassword(auth,email, password)    
     .then((authUser)=>{
-      setSignInState('signingIn');
       const schedule = generateRandomSchedule(authUser.user.uid);
       const stampBoard = generateRandomStampBoard(authUser.user.uid);
       
@@ -90,10 +89,7 @@ function App() {
     if(isSignInError) return;
     
     signInWithEmailAndPassword(auth, email, password)
-    .then(()=>{
-      setSignInState('signingIn');
-      
-    })
+    .then()
     .catch((error)=>{
       alert(error.message);
       console.log(error);
@@ -105,17 +101,11 @@ function App() {
     auth.onAuthStateChanged((authUser)=>{
     
       if(authUser){
-        if(!user)setSignInState('signingIn');
         setUser(authUser);
       }else{
-        setSignInState('default');
         setUser(null);
       }
     })
-
-    if(user){
-      setSignInState('signedIn')
-    }
   },[user]);
 
   useEventListener('resize',useCheckMobile(state=>state.checkIsMobile))
@@ -199,8 +189,6 @@ function App() {
           </FormControl>
         </ModalContent>
       </Modal>
-
-      <AlertModal enabled={signInState == 'signingIn'}>로그인 중입니다...</AlertModal>
     </div>
   );
 }

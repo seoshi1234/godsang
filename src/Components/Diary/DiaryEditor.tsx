@@ -6,7 +6,6 @@ import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage"
 import 
 {
 Heading,
-IconButton
 } from '@chakra-ui/react'
 import {
   MdTitle,
@@ -16,7 +15,6 @@ import {
   MdFormatStrikethrough,
   MdFormatQuote,  
   MdHorizontalRule,
-  MdTableChart,
   MdImage,
   MdLink,    
 } from 'react-icons/md'
@@ -78,6 +76,7 @@ function DiaryEditor(props:DiaryEditorProps) {
   
   const uploadImage = async (file:File)=>{
 
+    //사진 업로드 및 download url 받아오기
     const time = Date.now().toString();
     const fileNameRef = ref(storage, `${auth.currentUser.uid}/diaryImages/${time+file.name}`);
     await uploadBytes(fileNameRef, file);
@@ -103,18 +102,22 @@ function DiaryEditor(props:DiaryEditorProps) {
 
   const handleFileInput= async (e:React.ChangeEvent<HTMLInputElement>)=>{
     
+    //업로드중 모달 창 활성화
     setIsUploading(true);
     const files = e.target.files;
     const filesArray = [];
 
+    //map함수 사용을 위해 array로 변환
     for(let i = 0; i < files.length; i++){
       filesArray.push(files[i]);
     }
     
+    //모든 이미지 업로드까지 대기
     await Promise.all(filesArray.map((file)=>{
       return uploadImage(file);
     }))
 
+    //모달창 비활성화
     setIsUploading(false);
   }
 
@@ -126,8 +129,8 @@ function DiaryEditor(props:DiaryEditorProps) {
 
       <div className="diaryEditor__toolbar">
         <MdTitle onClick={()=>insertAtDiary('# 제목', {start:2, end:0})} title='제목'/>
-        <MdFormatBold onClick={()=>insertAtDiary('**텍스트**', {start:2, end:2})} title='Bold'/>
-        <MdFormatItalic onClick={()=>insertAtDiary('*텍스트*', {start:1, end:1})} title='Italic'/>
+        <MdFormatBold onClick={()=>insertAtDiary('**텍스트**', {start:2, end:2})} title='볼드체'/>
+        <MdFormatItalic onClick={()=>insertAtDiary('*텍스트*', {start:1, end:1})} title='이탤릭체'/>
         <MdFormatUnderlined onClick={()=>insertAtDiary('__텍스트__', {start:2, end:2})} title='밑줄'/>
         <MdFormatStrikethrough onClick={()=>insertAtDiary('~~텍스트~~', {start:2, end:2})} title='취소선'/>
         <FaListUl onClick={()=>insertAtDiary('* ')} title='Unordered List'/>
@@ -147,7 +150,7 @@ function DiaryEditor(props:DiaryEditorProps) {
           <div className="diaryEditor__headers">
             <Heading as={'h3'} size={'xl'}>마크다운 에디터</Heading>
           </div>
-          <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
+          <textarea ref={editorRef} defaultValue={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
           <div className="diaryEditor__headers">
             <Heading as={'h3'} size={'xl'}>뷰어</Heading>
           </div>
@@ -159,7 +162,7 @@ function DiaryEditor(props:DiaryEditorProps) {
             <Heading as={'h3'} size={'xl'}>마크다운 에디터</Heading>
             <Heading as={'h3'} size={'xl'}>뷰어</Heading>
           </div>
-          <textarea ref={editorRef} value={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
+          <textarea ref={editorRef} defaultValue={props.diary} onChange={(e)=>{props.onDiaryChange(e.target.value)}}/>
           <div ref={previewRef} className="diaryPreview" dangerouslySetInnerHTML={{__html:htmlText}}></div>
         </>
 

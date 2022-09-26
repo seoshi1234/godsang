@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import {useRef} from 'react'
 import {useClickOutside} from '../../Hooks'
 import {
   Box
@@ -8,8 +8,7 @@ import { ArrowBackIcon, ArrowDownIcon, ArrowForwardIcon, ArrowLeftIcon, ArrowRig
 
 interface TodoMoveMenuProps{
   toggleMenu:boolean
-  moveTodo:(direction:(string & {})
-  | "up" | "down" | "back" | "forward")=>void
+  moveTodo:(direction:| "up" | "down" | "back" | "forward")=>void
   closeMenu:()=>void
 
 }
