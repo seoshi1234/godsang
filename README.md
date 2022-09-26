@@ -1,46 +1,21 @@
-# Getting Started with Create React App
+# 갓생노트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 날짜별 투두리스트 및 일기작성 기능, 도장판 기능을 포함한 일정관리 웹사이트.
 
-## Available Scripts
+https://godsangsalgi.web.app/
 
-In the project directory, you can run:
+<br/>
 
-### `npm start`
+ - momentjs 라이브러리를 활용하여 달력 UI를 개발하였으며 날짜별 투두리스트 기능과 일기작성 기능을 완성하였습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![image-name](https://firebasestorage.googleapis.com/v0/b/godsangsalgi.appspot.com/o/ORE3OvLi8rf2Hp5B8QoZq1EcaXf1%2FdiaryImages%2F1661392625499%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202022-08-25%20105647.png?alt=media&token=c35fb6ff-ba98-4ff7-92f5-8a73ec67d42d)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+ - 마크다운에디터와 라이브 프리뷰로 구성된 웹 일기 편집기를 개발하였습니다.
 
-### `npm test`
+![image-name](https://firebasestorage.googleapis.com/v0/b/godsangsalgi.appspot.com/o/ORE3OvLi8rf2Hp5B8QoZq1EcaXf1%2FdiaryImages%2F1661392465935%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202022-08-25%20105414.png?alt=media&token=a910242a-6c81-4d5c-b8a7-4d51818097f8)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ - Firebase Auth와 Realtime Database를 이용하여 로그인 및 기기 동기화 기능을 개발하였습니다.
+ - Bitly Api를 이용하여 이미지다운로드 링크의 자동 단축기능을 개발하였습니다.
+ - Notification API와 setInterval 함수를 이용해 일정 알림 기능을 개발하였으며 최적화를 위해 useInterval이라는 커스텀 훅을 사용하였습니다.
+ - CSS Media Query 를 통해 모바일 반응형 페이지를 구현했습니다.
+<br/>
